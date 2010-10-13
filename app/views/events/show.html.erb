@@ -1,0 +1,100 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @event.title %>
+</p>
+
+<p>
+  <b>Message:</b>
+  <%= @event.message %>
+</p>
+
+<p>
+  <b>Created at:</b>
+  <%= @event.created_at %>
+</p>
+
+<p>
+  <b>Application:</b>
+  <%= @event.application %>
+</p>
+
+<p>
+  <b>Environment:</b>
+  <%= @event.environment %>
+</p>
+
+<p>
+  <b>Controller:</b>
+  <%= @event.controller %>
+</p>
+
+<p>
+  <b>Action:</b>
+  <%= @event.action %>
+</p>
+
+<p>
+  <b>Request url:</b>
+  <%= @event.request_url %>
+</p>
+
+<p>
+  <b>Request params:</b>
+  <%= @event.request_params %>
+</p>
+
+<p>
+  <b>Request data type:</b>
+  <%= @event.request_data_type %>
+</p>
+
+<p>
+  <b>Request data:</b>
+  <%= @event.request_data %>
+</p>
+
+<p>
+  <b>Session:</b>
+  <%= @event.session_id %>
+</p>
+
+<p>
+  <b>Session data type:</b>
+  <%= @event.session_data_type %>
+</p>
+
+<p>
+  <b>Session data:</b>
+  <%= @event.session_data %>
+</p>
+
+<p>
+  <b>Additional data type:</b>
+  <%= @event.additional_data_type %>
+</p>
+
+<p>
+  <b>Additional data:</b>
+  <%= @event.additional_data %>
+</p>
+
+<p>
+  <b>Backtrace:</b>
+  <%= @event.backtrace %>
+</p>
+
+<p>
+  <b>Node:</b>
+  <%= @event.node %>
+</p>
+
+<p>
+  <b>Pid:</b>
+  <%= @event.pid %>
+</p>
+
+
+<%= link_to 'Edit', edit_event_path(@event) %> |
+<%= link_to 'Back', events_path %>
