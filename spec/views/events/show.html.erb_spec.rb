@@ -7,6 +7,7 @@ describe "events/show.html.erb" do
       :message => "Message",
       :application => "Application",
       :environment => "Environment",
+      :version => "Version",
       :controller => "Controller",
       :action => "Action",
       :request_url => "MyText",
@@ -34,6 +35,8 @@ describe "events/show.html.erb" do
     rendered.should match(/Application/)
     # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/Environment/)
+    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
+    rendered.should match(/Version/)
     # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/Controller/)
     # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers

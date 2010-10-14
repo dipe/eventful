@@ -8,6 +8,7 @@ describe "events/index.html.erb" do
         :message => "Message",
         :application => "Application",
         :environment => "Environment",
+        :version => "Version",
         :controller => "Controller",
         :action => "Action",
         :request_url => "MyText",
@@ -28,6 +29,7 @@ describe "events/index.html.erb" do
         :message => "Message",
         :application => "Application",
         :environment => "Environment",
+        :version => "Version",
         :controller => "Controller",
         :action => "Action",
         :request_url => "MyText",
@@ -56,6 +58,8 @@ describe "events/index.html.erb" do
     assert_select "tr>td", :text => "Application".to_s, :count => 2
     # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     assert_select "tr>td", :text => "Environment".to_s, :count => 2
+    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
+    assert_select "tr>td", :text => "Version".to_s, :count => 2
     # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     assert_select "tr>td", :text => "Controller".to_s, :count => 2
     # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers

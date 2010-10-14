@@ -7,6 +7,7 @@ describe "events/new.html.erb" do
       :message => "MyString",
       :application => "MyString",
       :environment => "MyString",
+      :version => "MyString",
       :controller => "MyString",
       :action => "MyString",
       :request_url => "MyText",
@@ -33,6 +34,7 @@ describe "events/new.html.erb" do
       assert_select "input#event_message", :name => "event[message]"
       assert_select "input#event_application", :name => "event[application]"
       assert_select "input#event_environment", :name => "event[environment]"
+      assert_select "input#event_version", :name => "event[version]"
       assert_select "input#event_controller", :name => "event[controller]"
       assert_select "input#event_action", :name => "event[action]"
       assert_select "textarea#event_request_url", :name => "event[request_url]"

@@ -9,6 +9,7 @@ class Event < CouchRest::Model::Base
   property :created_at, Time
   property :application, String
   property :environment, String
+  property :version, String
   property :controller, String
   property :action, String
   property :request_url, String
