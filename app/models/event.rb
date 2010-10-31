@@ -6,7 +6,6 @@ class Event < CouchRest::Model::Base
 
   property :title, String
   property :message, String
-  property :created_at, Time
   property :application, String
   property :environment, String
   property :version, String
@@ -24,4 +23,6 @@ class Event < CouchRest::Model::Base
   property :backtrace, String
   property :node, String
   property :pid, String
+
+  timestamps!
 end
