@@ -22,7 +22,8 @@ describe "events/index.html.erb" do
         :additional_data => "MyText",
         :backtrace => "MyText",
         :node => "Node",
-        :pid => "Pid"
+        :pid => "Pid",
+        :created_at => "MyDate"
       ),
       stub_model(Event,
         :title => "Title",
@@ -43,7 +44,8 @@ describe "events/index.html.erb" do
         :additional_data => "MyText",
         :backtrace => "MyText",
         :node => "Node",
-        :pid => "Pid"
+        :pid => "Pid",
+        :created_at => "MyDate"
       )
     ])
   end

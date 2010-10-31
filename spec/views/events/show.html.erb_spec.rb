@@ -21,7 +21,8 @@ describe "events/show.html.erb" do
       :additional_data => "MyText",
       :backtrace => "MyText",
       :node => "Node",
-      :pid => "Pid"
+      :pid => "Pid",
+      :created_at => "MyDate"
     ))
   end
 

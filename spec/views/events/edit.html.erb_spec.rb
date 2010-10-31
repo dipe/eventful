@@ -22,7 +22,8 @@ describe "events/edit.html.erb" do
       :additional_data => "MyText",
       :backtrace => "MyText",
       :node => "MyString",
-      :pid => "MyString"
+      :pid => "MyString",
+      :created_at => "MyDate"
     ))
   end
 

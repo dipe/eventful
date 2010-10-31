@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe EventsController do
-
+  
   def mock_event(stubs={})
     @mock_event ||= mock_model(Event, stubs).as_null_object
   end
