@@ -1,34 +1,57 @@
 require 'spec_helper'
 
 describe "events/new.html.erb" do
+
+  def mock_event(stubs={})
+    @mock_event ||= mock("Event", stubs).tap do |m|
+      m.class.extend ActiveModel::Naming
+      m.class.send :include, ActiveModel::Conversion
+
+      def m.errors
+        []
+      end
+      
+      def m.persisted?
+        false
+      end
+
+      def m.class
+        Event
+      end
+
+      def m.destroy
+      end
+      
+    end
+  end
+
   before(:each) do
-    assign(:event, stub_model(Event,
-      :title => "MyString",
-      :message => "MyString",
-      :application => "MyString",
-      :environment => "MyString",
-      :version => "MyString",
-      :controller => "MyString",
-      :action => "MyString",
-      :request_url => "MyText",
-      :request_params => "MyText",
-      :request_data_type => "MyString",
-      :request_data => "MyText",
-      :session_id => "MyString",
-      :session_data_type => "MyString",
-      :session_data => "MyText",
-      :additional_data_type => "MyString",
-      :additional_data => "MyText",
-      :backtrace => "MyText",
-      :node => "MyString",
-      :pid => "MyString"
-    ).as_new_record)
+    assign(:event,
+           mock_event(:title => "MyString",
+                      :message => "MyString",
+                      :application => "MyString",
+                      :environment => "MyString",
+                      :version => "MyString",
+                      :controller => "MyString",
+                      :action => "MyString",
+                      :request_url => "MyText",
+                      :request_params => "MyText",
+                      :request_data_type => "MyString",
+                      :request_data => "MyText",
+                      :session_id => "MyString",
+                      :session_data_type => "MyString",
+                      :session_data => "MyText",
+                      :additional_data_type => "MyString",
+                      :additional_data => "MyText",
+                      :backtrace => "MyText",
+                      :node => "MyString",
+                      :pid => "MyString"
+                      ))
   end
 
   it "renders new event form" do
     render
 
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     assert_select "form", :action => events_path, :method => "post" do
       assert_select "input#event_title", :name => "event[title]"
       assert_select "input#event_message", :name => "event[message]"

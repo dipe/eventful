@@ -3,7 +3,17 @@ require 'spec_helper'
 describe EventsController do
   
   def mock_event(stubs={})
-    @mock_event ||= mock_model(Event, stubs).as_null_object
+    @mock_event ||= mock("Event", stubs).tap do |m|
+      m.class.extend ActiveModel::Naming
+
+      def m.class
+        Event
+      end
+
+      def m.destroy
+      end
+      
+    end
   end
 
   describe "GET index" do

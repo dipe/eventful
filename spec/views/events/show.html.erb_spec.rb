@@ -1,70 +1,76 @@
 require 'spec_helper'
 
 describe "events/show.html.erb" do
+
+  def mock_event(stubs={})
+    @mock_event ||= mock("Event", stubs).tap do |m|
+      m.class.extend ActiveModel::Naming
+      m.class.send :include, ActiveModel::Conversion
+
+      def m.errors
+        []
+      end
+      
+      def m.persisted?
+        true
+      end
+
+      def m.class
+        Event
+      end
+
+      def m.destroy
+      end
+      
+    end
+  end
+
   before(:each) do
-    @event = assign(:event, stub_model(Event,
-      :title => "Title",
-      :message => "Message",
-      :application => "Application",
-      :environment => "Environment",
-      :version => "Version",
-      :controller => "Controller",
-      :action => "Action",
-      :request_url => "MyText",
-      :request_params => "MyText",
-      :request_data_type => "Request Data Type",
-      :request_data => "MyText",
-      :session_id => "Session",
-      :session_data_type => "Session Data Type",
-      :session_data => "MyText",
-      :additional_data_type => "Additional Data Type",
-      :additional_data => "MyText",
-      :backtrace => "MyText",
-      :node => "Node",
-      :pid => "Pid",
-      :created_at => "MyDate"
-    ))
+    @event = assign(:event,
+                    mock_event(:id => 1,
+                               :title => "Title",
+                               :message => "Message",
+                               :application => "Application",
+                               :environment => "Environment",
+                               :version => "Version",
+                               :controller => "Controller",
+                               :action => "Action",
+                               :request_url => "MyText",
+                               :request_params => "MyText",
+                               :request_data_type => "Request Data Type",
+                               :request_data => "MyText",
+                               :session_id => "Session",
+                               :session_data_type => "Session Data Type",
+                               :session_data => "MyText",
+                               :additional_data_type => "Additional Data Type",
+                               :additional_data => "MyText",
+                               :backtrace => "MyText",
+                               :node => "Node",
+                               :pid => "Pid",
+                               :created_at => "value for created_at"
+                               ))
   end
 
   it "renders attributes in <p>" do
     render
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/Title/)
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/Message/)
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/Application/)
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/Environment/)
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/Version/)
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/Controller/)
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/Action/)
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/MyText/)
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/MyText/)
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/Request Data Type/)
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/MyText/)
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/Session/)
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/Session Data Type/)
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/MyText/)
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/Additional Data Type/)
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/MyText/)
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/MyText/)
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/Node/)
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/Pid/)
   end
 end
