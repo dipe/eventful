@@ -1,6 +1,12 @@
 Eventful::Application.routes.draw do
+
   resources :events
 
+  unless Rails.env == 'production'
+    get "test" => "test_client#errors"
+    post "test/throw" => "test_client#throw"
+  end
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
