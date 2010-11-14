@@ -1,6 +1,6 @@
 module Eventful
   class Event < ActiveResource::Base
-    self.site = "http://0.0.0.0:8080"
+    self.site = "http://0.0.0.0:7769"
 
     # self.proxy = "http://user:password@proxy.people.com:8080"
 

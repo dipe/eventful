@@ -4,7 +4,7 @@ require 'eventful_event'
 class TestClientController < ApplicationController
 
   def throw
-    Eventful::Event.put()
-    redirect_to test_errors_path
+    Eventful::Event.put(:request => request)
+    redirect_to test_path
   end  
 end
