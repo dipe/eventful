@@ -23,6 +23,6 @@ class Event < CouchRest::Model::Base
   property :backtrace, String
   property :node, String
   property :pid, String
+  property :created_at, DateTime, :default => lambda { Time.now }
 
-  timestamps!
 end
