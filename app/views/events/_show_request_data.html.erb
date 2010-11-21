@@ -1,0 +1,6 @@
+<% require 'uv' %>
+<p id="request_data">
+  <span class="label">Request data:</span>
+  <%= link_to "hide...", hide_request_data_event_path, :remote => true %>
+  <%= raw Uv.parse(@event.request_data, 'xhtml', @event.request_data_type, true, 'active4d') %>
+</p>

@@ -1,105 +1,85 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Title:</b>
+  <span class="label">Title:</span>
   <%= @event.title %>
 </p>
 
 <p>
-  <b>Message:</b>
+  <span class="label">Message:</span>
   <%= @event.message %>
 </p>
 
 <p>
-  <b>Created at:</b>
+  <span class="label">Created at:</span>
   <%= @event.created_at %>
 </p>
 
 <p>
-  <b>Application:</b>
+  <span class="label">Application:</span>
   <%= @event.application %>
 </p>
 
 <p>
-  <b>Environment:</b>
+  <span class="label">Environment:</span>
   <%= @event.environment %>
 </p>
 
 <p>
-  <b>Version:</b>
+  <span class="label">Version:</span>
   <%= @event.version %>
 </p>
 
 <p>
-  <b>Controller:</b>
+  <span class="label">Controller:</span>
   <%= @event.controller %>
 </p>
 
 <p>
-  <b>Action:</b>
+  <span class="label">Action:</span>
   <%= @event.action %>
 </p>
 
 <p>
-  <b>Request url:</b>
+  <span class="label">URL:</span>
   <%= @event.request_url %>
 </p>
 
 <p>
-  <b>Request params:</b>
-  <%= @event.request_params %>
-</p>
-
-<p>
-  <b>Request data type:</b>
-  <%= @event.request_data_type %>
-</p>
-
-<p>
-  <b>Request data:</b>
-  <pre><%= @event.request_data %></pre>
-</p>
-
-<p>
-  <b>Session:</b>
+  <span class="label">Session-ID:</span>
   <%= @event.session_id %>
 </p>
 
 <p>
-  <b>Session data type:</b>
-  <%= @event.session_data_type %>
-</p>
-
-<p>
-  <b>Session data:</b>
-  <%= @event.session_data %>
-</p>
-
-<p>
-  <b>Additional data type:</b>
-  <%= @event.additional_data_type %>
-</p>
-
-<p>
-  <b>Additional data:</b>
-  <%= @event.additional_data %>
-</p>
-
-<p>
-  <b>Backtrace:</b>
-  <%= @event.backtrace %>
-</p>
-
-<p>
-  <b>Node:</b>
+  <span class="label">Node:</span>
   <%= @event.node %>
 </p>
 
 <p>
-  <b>Pid:</b>
+  <span class="label">Pid:</span>
   <%= @event.pid %>
 </p>
 
+<p>
+  <span class="label">Backtrace:</span>
+  <pre><%= @event.backtrace %></pre>
+</p>
 
-<%= link_to 'Edit', edit_event_path(@event) %> |
+<p>
+  <span class="label">Request params:</span>
+  <pre><%= @event.request_params %></pre>
+</p>
+
+<%= render :partial => 'hide_request_data' %>
+
+<p>
+  <span class="label">Session data:</span>
+  <pre><%= @event.session_data %></pre>
+</p>
+
+<p>
+  <span class="label">Additional data:</span>
+  <%= @event.additional_data %>
+</p>
+
 <%= link_to 'Back', events_path %>

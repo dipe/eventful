@@ -1,44 +1,17 @@
 class EventsController < ApplicationController
-  # GET /events
-  # GET /events.xml
-  def index
-    @events = Event.all
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @events }
-    end
+  respond_to :js, :html
+  
+  def index
+    @events = Event.all.sort_by { |e| e.created_at.to_s }.reverse
+    respond_with @events
   end
 
-  # GET /events/1
-  # GET /events/1.xml
   def show
     @event = Event.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @event }
-    end
+    respond_with @events
   end
 
-  # GET /events/new
-  # GET /events/new.xml
-  def new
-    @event = Event.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @event }
-    end
-  end
-
-  # GET /events/1/edit
-  def edit
-    @event = Event.find(params[:id])
-  end
-
-  # POST /events
-  # POST /events.xml
   def create
     @event = Event.new(params[:event])
 
@@ -53,31 +26,11 @@ class EventsController < ApplicationController
     end
   end
 
-  # PUT /events/1
-  # PUT /events/1.xml
-  def update
-    @event = Event.find(params[:id])
-
-    respond_to do |format|
-      if @event.update_attributes(params[:event])
-        format.html { redirect_to(@event, :notice => 'Event was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
-      end
-    end
+  def hide_request_data
   end
 
-  # DELETE /events/1
-  # DELETE /events/1.xml
-  def destroy
+  def show_request_data
     @event = Event.find(params[:id])
-    @event.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(events_url) }
-      format.xml  { head :ok }
-    end
+    respond_with @events
   end
 end

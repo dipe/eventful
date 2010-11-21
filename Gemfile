@@ -1,8 +1,9 @@
 source 'http://rubygems.org'
 
 gem 'rails', '>= 3.0.0'
-gem 'couchrest', '>= 1.0.0.beta' 
 gem 'couchrest_model', :git => 'git://github.com/couchrest/couchrest_model'
+gem 'jquery-rails'
+gem 'ultraviolet', :git => 'git://github.com/spox/ultraviolet'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

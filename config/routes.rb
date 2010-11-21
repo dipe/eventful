@@ -1,6 +1,11 @@
 Eventful::Application.routes.draw do
 
-  resources :events
+  resources :events do
+    member do
+      get "hide_request_data"
+      get "show_request_data"
+    end
+  end
 
   unless Rails.env == 'production'
     get "test" => "test_client#errors"
