@@ -3,7 +3,7 @@ class EventsController < ApplicationController
   respond_to :js, :html
   
   def index
-    @events = Event.all.to_a.sort_by { |e| e.created_at }.reverse
+    @events = Event.all #.to_a.sort_by { |e| e.created_at }.reverse
     respond_with @events
   end
 

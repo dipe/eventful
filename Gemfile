@@ -1,12 +1,15 @@
 source 'http://rubygems.org'
+source :gemcutter
 
 gem 'rails', '>= 3.0.0'
-gem "couchmodel", :require => "couch_model"
-gem 'jquery-rails'
-gem 'ultraviolet', :git => 'git://github.com/spox/ultraviolet'
-
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
+
+gem "couchmodel", :require => "couch_model"
+gem 'jquery-rails'
+
+gem "json-jruby" if RUBY_PLATFORM =~ /java/
+#gem 'ultraviolet', :git => 'git://github.com/spox/ultraviolet'
 
 # gem 'sqlite3-ruby', :require => 'sqlite3'
 
@@ -30,6 +33,6 @@ gem 'ultraviolet', :git => 'git://github.com/spox/ultraviolet'
 # and rake tasks are available in development mode:
 group :development, :test do
   gem "rspec-rails", ">= 2.0.0"
-  gem 'ruby-debug19'
+  gem 'ruby-debug19' unless RUBY_PLATFORM =~ /java/
   gem "autotest"
 end
