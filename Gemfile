@@ -29,12 +29,7 @@ gem 'ultraviolet', :git => 'git://github.com/spox/ultraviolet'
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
 group :development, :test do
-  gem "rspec",              :git => "git://github.com/rspec/rspec.git"
-  gem "rspec-core",         :git => "git://github.com/rspec/rspec-core.git"
-  gem "rspec-expectations", :git => "git://github.com/rspec/rspec-expectations.git"
-  gem "rspec-mocks",        :git => "git://github.com/rspec/rspec-mocks.git"
-  gem "rspec-rails",        :git => "git://github.com/rspec/rspec-rails.git"
-
+  gem "rspec-rails", ">= 2.0.0"
   gem 'ruby-debug19'
   gem "autotest"
 end
