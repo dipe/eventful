@@ -1,5 +1,7 @@
 Eventful::Application.routes.draw do
 
+  root :to => "events#index"
+  
   resources :events do
     member do
       get :hide_request_data
