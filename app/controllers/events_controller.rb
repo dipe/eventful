@@ -3,7 +3,7 @@ class EventsController < ApplicationController
   respond_to :js, :html
   
   def index
-    @events = Event.all.sort_by { |e| e.created_at.to_s }.reverse
+    @events = Event.all.to_a.sort_by { |e| e.created_at }.reverse
     respond_with @events
   end
 
@@ -14,7 +14,7 @@ class EventsController < ApplicationController
 
   def create
     @event = Event.new(params[:event])
-
+    
     respond_to do |format|
       if @event.save
         format.html { redirect_to(@event, :notice => 'Event was successfully created.') }

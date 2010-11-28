@@ -1,28 +1,34 @@
-class Event < CouchRest::Model::Base
+class Event < CouchModel::Base
 
-  couch = CouchRest.new
-  couch.default_database = "eventful-#{Rails.env}"
-  use_database couch.default_database
+  before_save :set_default_values
+  
+  setup_database :url => "http://localhost:5984/eventful-#{Rails.env}",
+    :create_if_missing => true,
+    :delete_if_exists => false,
+    :push_design => true
 
-  property :title, String
-  property :message, String
-  property :application, String
-  property :environment, String
-  property :version, String
-  property :controller, String
-  property :action, String
-  property :request_url, String
-  property :request_params, String
-  property :request_data_type, String
-  property :request_data, String
-  property :session_id, String
-  property :session_data_type, String
-  property :session_data, String
-  property :additional_data_type, String
-  property :additional_data, String
-  property :backtrace, String
-  property :node, String
-  property :pid, String
-  property :created_at, DateTime, :default => lambda { Time.now }
+  key_accessor :title
+  key_accessor :message
+  key_accessor :application
+  key_accessor :environment
+  key_accessor :version
+  key_accessor :controller
+  key_accessor :action
+  key_accessor :request_url
+  key_accessor :request_params
+  key_accessor :request_data_type
+  key_accessor :request_data
+  key_accessor :session_id
+  key_accessor :session_data_type
+  key_accessor :session_data
+  key_accessor :additional_data_type
+  key_accessor :additional_data
+  key_accessor :backtrace
+  key_accessor :node
+  key_accessor :pid
+  key_accessor :created_at, :type => :time
 
+  def set_default_values
+    self.created_at ||= Time.now
+  end
 end
