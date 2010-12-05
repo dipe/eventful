@@ -20,8 +20,7 @@ class EventsController < ApplicationController
         format.html { redirect_to(@event, :notice => 'Event was successfully created.') }
         format.xml  { render :xml => @event, :status => :created, :location => @event }
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
+        render :xml => @event.errors, :status => :unprocessable_entity
       end
     end
   end
