@@ -1,10 +1,6 @@
-<% require 'uv' %>
 <p id="request_data">
   <span class="label">Request data:</span>
   <%= link_to "hide...", hide_request_data_event_path, :remote => true %>
-<% if RUBY_PLATFORM =~ /java/
-  <%= @event.request_data %>
-<% else %>
-  <%= raw Uv.parse(@event.request_data, 'xhtml', @event.request_data_type, true, 'active4d') %>
-<% end $>
+  <% coderay = CodeRay::Duo[:yaml, :div] %>
+  <%= raw coderay.encode(@event.request_data) %>
 </p>

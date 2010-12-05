@@ -1,15 +1,11 @@
-source 'http://rubygems.org'
 source :gemcutter
 
 gem 'rails', '>= 3.0.3'
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
 gem "couchmodel", :require => "couch_model"
 gem 'jquery-rails'
+gem 'coderay'
 
 gem "json-jruby" if RUBY_PLATFORM =~ /java/
-gem 'ultraviolet', :git => 'git://github.com/spox/ultraviolet' unless RUBY_PLATFORM =~ /java/
 
 # gem 'sqlite3-ruby', :require => 'sqlite3'
 
