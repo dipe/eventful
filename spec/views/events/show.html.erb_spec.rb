@@ -3,25 +3,8 @@ require 'spec_helper'
 describe "events/show.html.erb" do
 
   def mock_event(stubs={})
-    @mock_event ||= mock("Event", stubs).tap do |m|
-      m.class.extend ActiveModel::Naming
-      m.class.send :include, ActiveModel::Conversion
-
-      def m.errors
-        []
-      end
-      
-      def m.persisted?
-        true
-      end
-
-      def m.class
-        Event
-      end
-
-      def m.destroy
-      end
-      
+    (@mock_event ||= mock_model(Event).as_null_object).tap do |event|
+      event.stub(stubs) unless stubs.empty?
     end
   end
 

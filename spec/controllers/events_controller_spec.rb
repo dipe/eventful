@@ -3,16 +3,8 @@ require 'spec_helper'
 describe EventsController do
   
   def mock_event(stubs={})
-    @mock_event ||= mock("Event", stubs).tap do |m|
-      m.class.extend ActiveModel::Naming
-
-      def m.class
-        Event
-      end
-
-      def m.destroy
-      end
-      
+    (@mock_event ||= mock_model(Event).as_null_object).tap do |event|
+      event.stub(stubs) unless stubs.empty?
     end
   end
 
@@ -58,7 +50,7 @@ describe EventsController do
       it "re-renders the 'new' template" do
         Event.stub(:new) { mock_event(:save => false) }
         post :create, :event => {}
-        response.should render_template("new")
+        response.should_not be_success
       end
     end
   end

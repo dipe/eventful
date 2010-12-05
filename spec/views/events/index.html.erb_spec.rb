@@ -12,8 +12,7 @@ describe "events/index.html.erb" do
                        :action => "value for action",
                        :title => "value for title",
                        :message => "value for message",
-                       :is_a? => false,
-                       :kind_of? => false
+                       :to_param => 'value for to_param1'
                        ),
             stub_model(Event,
 #                       :created_at => "value for created_at",
@@ -23,8 +22,7 @@ describe "events/index.html.erb" do
                        :action => "value for action",
                        :title => "value for title",
                        :message => "value for message",
-                       :is_a? => false,
-                       :kind_of? => false
+                       :to_param => 'value for to_param2'
                        )
            ])
   end
