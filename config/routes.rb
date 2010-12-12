@@ -4,8 +4,8 @@ Eventful::Application.routes.draw do
   
   resources :events do
     member do
-      get :hide_request_data
-      get :show_request_data
+      get :show_additional_data_item
+      get :hide_additional_data_item
     end
   end
 

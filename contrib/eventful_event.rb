@@ -18,6 +18,7 @@ module Eventful
       event.environment = Rails.env
       event.node = `hostname -s`.chomp
       event.pid = $$
+      event.additional_data = []
 
       params.each_pair do |name, value|
         event.send("#{name}=", value)
@@ -37,29 +38,28 @@ module Eventful
     def exception=(exception)
       self.title = exception.class.name
       self.message = exception.message
-      self.backtrace = exception.backtrace.join("\n") if exception.backtrace
+      add_extra_data(:backtrace, exception.backtrace.join("\n")) if exception.backtrace
     end
 
     def request=(request)
-      self.request_data_type = :yaml
-      self.request_data = request.to_yaml
       self.request_url = request.url
       self.request_host = (request.env["HTTP_X_FORWARDED_HOST"] || request.env["HTTP_HOST"])
       self.request_ip = request.ip
-      
-      self.request_params = request.params.to_yaml
       self.controller = request.params[:controller]
       self.action = request.params[:action]
-      
-      self.session_data_type = :yaml
-      self.session_data = request.session.to_yaml
       self.session_id = request.session_options[:id]
+      
+      add_extra_data(:request_params, request.params.to_yaml)
+      add_extra_data(:request, request.to_yaml)
+      add_extra_data(:session, request.session.to_yaml)
     end
 
-    def additional=(data)
-      self.additional_data_type = :yaml
-      self.additional_data = data.to_yaml
+    def extra=(data)
+      add_extra_data(:extra, data.to_yaml)
     end
 
+    def add_extra_data(key, value, type = :yaml)
+      additional_data << {:key => key, :value => value, :type => type}
+    end
   end
 end

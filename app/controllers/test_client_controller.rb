@@ -7,8 +7,8 @@ class TestClientController < ApplicationController
     begin
       raise RuntimeError.new('Bang!')
     rescue Exception => e
-      Eventful::Event.put(:request => request, :exception => e)
+      Eventful::Event.put(:request => request, :exception => e, :extra => {'this' => 'value for this data'})
     end
     redirect_to test_path
-  end  
+  end
 end

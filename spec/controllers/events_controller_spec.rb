@@ -24,8 +24,15 @@ describe EventsController do
     end
   end
 
-  describe "POST create" do
+  describe "GET show_additional_data" do
+    it "assigns the requested event as @event" do
+      Event.stub(:find).with("37") { mock_event }
+      get :show, :id => "37"
+      assigns(:event).should be(mock_event)
+    end
+  end
 
+  describe "POST create" do
     describe "with valid params" do
       it "assigns a newly created event as @event" do
         Event.stub(:new).with({'these' => 'params'}) { mock_event(:save => true) }

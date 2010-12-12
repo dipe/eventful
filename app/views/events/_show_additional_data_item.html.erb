@@ -1,0 +1,7 @@
+<% 
+  coderay = CodeRay::Duo[@item['type'], :div]
+  link = link_to(I18n.t("phrases.hide_ellipse"), hide_additional_data_item_event_path(@event, :key => @key), :remote => true)
+  data = raw coderay.encode(@item['value'])
+  value = link + data
+  %>
+<%= render :partial => "attribute", :locals => {:name => @key, :value => value}%>

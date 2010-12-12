@@ -10,27 +10,9 @@
   <% end %>
 <% end %>
 
-
-<% name = :backtrace %>
-<% if value = @event.send(name) %>
-  <%= render :partial => "attribute", :locals => {:name => name, :value => content_tag('pre', value)}%>
+<% if @event.additional_data %>
+  <% @event.additional_data.each do |item| %>
+    <%= render :partial => 'hidden_additional_data_item', :locals => {:item => item} %>
+  <% end %>
 <% end %>
-
-<% name = :request_params %>
-<% if value = @event.send(name) %>
-  <%= render :partial => "attribute", :locals => {:name => name, :value => content_tag('pre', value)}%>
-<% end %>
-
-<%= render :partial => 'hide_request_data' %>
-
-<% name = :session_data %>
-<% if value = @event.send(name) %>
-  <%= render :partial => "attribute", :locals => {:name => name, :value => content_tag('pre', value)}%>
-<% end %>
-
-<% name = :additional_data %>
-<% if value = @event.send(name) %>
-  <%= render :partial => "attribute", :locals => {:name => name, :value => content_tag('pre', value)}%>
-<% end %>
-
 <%= link_to 'Back', events_path %>
