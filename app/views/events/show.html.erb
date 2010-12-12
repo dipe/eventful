@@ -1,85 +1,36 @@
+<h2><%= @event.title %></h2>
+
 <p id="notice"><%= notice %></p>
 
-<p>
-  <span class="label">Title:</span>
-  <%= @event.title %>
-</p>
+<% [:message, :created_at, :application, :environment, :version,
+    :controller, :action, :request_url, :session_id, :node, :pid,
+    :backtrace].each do |name| %>
+  <% if value = @event.send(name) %>
+    <%= render :partial => "attribute", :locals => {:name => name, :value => value}%>
+  <% end %>
+<% end %>
 
-<p>
-  <span class="label">Message:</span>
-  <%= @event.message %>
-</p>
 
-<p>
-  <span class="label">Created at:</span>
-  <%= @event.created_at %>
-</p>
+<% name = :backtrace %>
+<% if value = @event.send(name) %>
+  <%= render :partial => "attribute", :locals => {:name => name, :value => content_tag('pre', value)}%>
+<% end %>
 
-<p>
-  <span class="label">Application:</span>
-  <%= @event.application %>
-</p>
-
-<p>
-  <span class="label">Environment:</span>
-  <%= @event.environment %>
-</p>
-
-<p>
-  <span class="label">Version:</span>
-  <%= @event.version %>
-</p>
-
-<p>
-  <span class="label">Controller:</span>
-  <%= @event.controller %>
-</p>
-
-<p>
-  <span class="label">Action:</span>
-  <%= @event.action %>
-</p>
-
-<p>
-  <span class="label">URL:</span>
-  <%= @event.request_url %>
-</p>
-
-<p>
-  <span class="label">Session-ID:</span>
-  <%= @event.session_id %>
-</p>
-
-<p>
-  <span class="label">Node:</span>
-  <%= @event.node %>
-</p>
-
-<p>
-  <span class="label">Pid:</span>
-  <%= @event.pid %>
-</p>
-
-<p>
-  <span class="label">Backtrace:</span>
-  <pre><%= @event.backtrace %></pre>
-</p>
-
-<p>
-  <span class="label">Request params:</span>
-  <pre><%= @event.request_params %></pre>
-</p>
+<% name = :request_params %>
+<% if value = @event.send(name) %>
+  <%= render :partial => "attribute", :locals => {:name => name, :value => content_tag('pre', value)}%>
+<% end %>
 
 <%= render :partial => 'hide_request_data' %>
 
-<p>
-  <span class="label">Session data:</span>
-  <pre><%= @event.session_data %></pre>
-</p>
+<% name = :session_data %>
+<% if value = @event.send(name) %>
+  <%= render :partial => "attribute", :locals => {:name => name, :value => content_tag('pre', value)}%>
+<% end %>
 
-<p>
-  <span class="label">Additional data:</span>
-  <%= @event.additional_data %>
-</p>
+<% name = :additional_data %>
+<% if value = @event.send(name) %>
+  <%= render :partial => "attribute", :locals => {:name => name, :value => content_tag('pre', value)}%>
+<% end %>
 
 <%= link_to 'Back', events_path %>
