@@ -1,4 +1,4 @@
 <% name = :request_data %>
 <% if !@event || @event.send(name) %>
-  <%= render :partial => "attribute", :locals => {:name => name, :value => link_to(I18n.t('phrases.show_ellipse'), show_request_data_event_path, :remote => true) }%>
+  <%= render :partial => "attribute", :locals => {:name => name, :value => link_to(I18n.t('phrases.show_ellipse'), show_request_data_event_path(@event), :remote => true) }%>
 <% end %>
