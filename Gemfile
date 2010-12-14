@@ -5,7 +5,10 @@ gem "couchmodel", :require => "couch_model"
 gem 'jquery-rails'
 gem 'coderay'
 
-gem "json-jruby" if RUBY_PLATFORM =~ /java/
+if RUBY_PLATFORM =~ /java/
+  gem "json-jruby"
+  gem "jruby-openssl"
+end
 
 # gem 'sqlite3-ruby', :require => 'sqlite3'
 
@@ -28,7 +31,7 @@ gem "json-jruby" if RUBY_PLATFORM =~ /java/
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
 group :development, :test do
-  gem "rspec-rails", ">= 2.0.0"
+  gem "rspec-rails", ">= 2.3.0"
   gem 'ruby-debug19' unless RUBY_PLATFORM =~ /java/
   gem "autotest"
 end
