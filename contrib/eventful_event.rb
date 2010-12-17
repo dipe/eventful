@@ -38,7 +38,7 @@ module Eventful
     def exception=(exception)
       self.title = exception.class.name
       self.message = exception.message
-      add_extra_data(:backtrace, exception.backtrace.join("\n")) if exception.backtrace
+      add_additional_data(:backtrace, exception.backtrace.join("\n")) if exception.backtrace
     end
 
     def request=(request)
@@ -49,9 +49,9 @@ module Eventful
       self.action = request.params[:action]
       self.session_id = request.session_options[:id]
       
-      add_extra_data(:request_params, request.params.to_yaml)
-      add_extra_data(:request, request.to_yaml)
-      add_extra_data(:session, request.session.to_yaml)
+      add_additional_data(:request_params, request.params.to_yaml)
+      add_additional_data(:request, request.to_yaml)
+      add_additional_data(:session, request.session.to_yaml)
     end
 
     def extra=(hash)

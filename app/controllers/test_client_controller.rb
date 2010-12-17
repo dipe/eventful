@@ -22,7 +22,9 @@ class TestClientController < ApplicationController
     begin
       raise RuntimeError.new('Bang!')
     rescue Exception => e
-      Eventful::Event.put(:request => request, :exception => e, :extra => {:key => 'SOAP', :value => XML, :type => :xml})
+      Eventful::Event.put(:request => request,
+                          :exception => e,
+                          :extra => {:key => 'SOAP', :value => XML, :type => :xml})
     end
     redirect_to test_path
   end
