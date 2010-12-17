@@ -1,31 +1,12 @@
 <h1>Eventful</h1>
 
-<table>
-  <tr>
-    <th align="left">Zeitpunkt</th>
-    <th align="left">Knoten</th>
-    <th align="left">Applikation</th>
-    <th align="left">Umgebung</th>
-    <th align="left">Aktion</th>
-    <th align="left">Ereignis</th>
-    <th align="left">Text</th>
-    <th></th>
-  </tr>
+<% @events.group_by { |e| e.created_at.strftime('%Y-%m-%d') }.each do |date, events| %>
+<h2><%= date %></h2>
 
-<% @events.each do |event| %>
-  <tr>
-    <td><%= event.created_at %></td>
-    <td><%= event.node %></td>
-    <td><%= link_to event.application, events_path(:app_name => event.application) %></td>
-    <td><%= event.environment %></td>
-    <td><%= event.action %></td>
-    <td><%= event.title %></td>
-    <td><%= truncate(event.message || '', :length => 60) %></td>
-    <td><%= link_to 'Show', event %></td>
-  </tr>
+  <ul>
+  <% events.each do |event| %>
+    <li><%= event %></li>
+  <% end %>
+  </ul>
 <% end %>
 </table>
-
-<br />
-
-<%= link_to 'New Event', new_event_path %>

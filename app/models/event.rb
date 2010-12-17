@@ -31,4 +31,8 @@ class Event < CouchModel::Base
   def set_default_values
     self.created_at ||= Time.now
   end
+
+  def to_s
+    "#{created_at}: #{application}-#{environment}@#{node} (#{controller}##{action}) #{title} [#{message}]"
+  end
 end
