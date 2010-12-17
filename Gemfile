@@ -4,6 +4,7 @@ gem 'rails', '>= 3.0.3'
 gem "couchmodel", :require => "couch_model"
 gem 'jquery-rails'
 gem 'coderay'
+gem 'haml'
 
 if RUBY_PLATFORM =~ /java/
   gem "json-jruby"

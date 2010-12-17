@@ -1,0 +1,8 @@
+%h1 Eventful
+
+- @events.group_by { |e| e.created_at.strftime('%Y-%m-%d') }.each do |date, events|
+  .content
+    %h2= date
+    %ul{:class => "event_list"}
+      - events.each do |event|
+        %li{:class => cycle("even", "odd", :name => "row_class")}= link_to event, event

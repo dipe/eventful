@@ -1,0 +1,15 @@
+.content
+  %p=  @event.created_at
+
+  %h2= @event.title
+
+  %p=  @event.message
+
+  - [:application, :environment, :version, :controller, :action, :request_url, :session_id, :node, :pid, :backtrace].each do |name|
+    - if value = @event.send(name)
+      = render :partial => "attribute", :locals => {:name => name, :value => value}
+  
+  - if @event.additional_data
+    - @event.additional_data.each do |item|
+      = render :partial => 'hidden_additional_data_item', :locals => {:item => item}
+  %p= link_to 'Back', events_path
