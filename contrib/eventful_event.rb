@@ -54,12 +54,12 @@ module Eventful
       add_extra_data(:session, request.session.to_yaml)
     end
 
-    def extra=(data)
-      add_extra_data(:extra, data.to_yaml)
+    def extra=(hash)
+      add_extra_data(hash[:key], hash[:value], hash[:type])
     end
 
-    def add_extra_data(key, value, type = :yaml)
-      additional_data << {:key => key, :value => value, :type => type}
+    def add_extra_data(key, value, type = 'yaml')
+      additional_data << {:key => key.to_s, :value => value.to_s, :type => type.to_s}
     end
   end
 end
