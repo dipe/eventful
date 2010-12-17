@@ -1,7 +1,13 @@
 body {
-  background-color: #4B7399;
-  font-family: Verdana, Helvetica, Arial;
+  color: #fff;
+  margin: 30px 30px;
+  background-color: #181818;
+  font-family: Sans;
   font-size: 14px;
+}
+
+h1, h2, h3 {
+  color: #C43E0A;
 }
 
 a img {
@@ -9,22 +15,40 @@ a img {
 }
 
 a {
-  color: #0000FF;
+  color: #F57340;
 }
 
-.clear {
-  clear: both;
-  height: 0;
-  overflow: hidden;
+.content {
+  border: solid 1px #333;
+  padding: 0 17px;
+  margin: 20px 0;
+  background-color: #000;
 }
 
-#container {
-  width: 75%;
-  margin: 0 auto;
-  background-color: #FFF;
-  padding: 20px 40px;
-  border: solid 1px black;
-  margin-top: 20px;
+.label {
+  font-weight: bold;
+}
+
+ul.event_list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.event_list li {
+  padding: 5px 5px;
+  font-weight: bold;
+}
+
+.event_list a {
+  color: #F57340;
+}
+
+.even {
+  background-color: #202020;
+}
+
+.odd {
+  background-color: #000;
 }
 
 #flash_notice, #flash_error {
@@ -66,7 +90,7 @@ a {
 }
 
 #errorExplanation p {
-  color: #333;
+  color: #202020;
   margin-bottom: 0;
   padding: 8px;
 }

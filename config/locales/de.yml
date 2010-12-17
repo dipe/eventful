@@ -6,6 +6,15 @@ de:
     show_ellipse: anzeigen…
     hide_ellipse: verbergen…
 
+  display_values:
+    event:
+      level:
+        '0': KRITISCH
+        '1': FEHLER
+        '2': WARNUNG
+        '3': INFO
+        '4': DIAGNOSE
+
   activemodel:
     attributes:
       event:
@@ -20,6 +29,7 @@ de:
         request_params: Request-Parameter
         request_data: Request-Daten
         session_data: Session-Daten
+        level: Dringlichkeit
     errors:
       template:
         header:

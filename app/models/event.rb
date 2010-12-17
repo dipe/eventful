@@ -7,6 +7,7 @@ class Event < CouchModel::Base
     :delete_if_exists => false,
     :push_design => true
 
+  key_accessor :level
   key_accessor :title
   key_accessor :message
   key_accessor :application
@@ -32,7 +33,11 @@ class Event < CouchModel::Base
     self.created_at ||= Time.now
   end
 
+  def level_name
+    I18n.t("display_values.event.level.#{level || 0}")
+  end
+  
   def to_s
-    "#{created_at}: #{application}-#{environment}@#{node} (#{controller}##{action}) #{title} [#{message}]"
+    "#{created_at}: #{level_name} #{application}-#{environment}@#{node} (#{controller}##{action}) #{title} [#{message}]"
   end
 end
