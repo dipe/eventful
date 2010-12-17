@@ -55,10 +55,10 @@ module Eventful
     end
 
     def extra=(hash)
-      add_extra_data(hash[:key], hash[:value], hash[:type])
+      add_additional_data(hash[:key], hash[:value], hash[:type])
     end
 
-    def add_extra_data(key, value, type = 'yaml')
+    def add_additional_data(key, value, type = 'yaml')
       additional_data << {:key => key.to_s, :value => value.to_s, :type => type.to_s}
     end
   end
