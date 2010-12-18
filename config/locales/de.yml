@@ -5,15 +5,16 @@ de:
   phrases:
     show_ellipse: anzeigen…
     hide_ellipse: verbergen…
+    back: zurück
 
   display_values:
     event:
       level:
-        '0': KRITISCH
-        '1': FEHLER
-        '2': WARNUNG
-        '3': INFO
-        '4': DIAGNOSE
+        '0': Alarm
+        '1': Fehler
+        '2': Warnung
+        '3': Info
+        '4': Diagnose
 
   activemodel:
     attributes:
@@ -56,6 +57,7 @@ de:
       short: "%d. %B, %H:%M Uhr"
       long: "%A, %d. %B %Y, %H:%M Uhr"
       time: "%H:%M"
+      iso_date: "%Y-%m-%d"
 
     am: "vormittags"
     pm: "nachmittags"

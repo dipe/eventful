@@ -1,0 +1,4 @@
+- link = link_to(I18n.t("phrases.hide_ellipse"), hide_additional_data_item_event_path(@event, :key => @key), :remote => true)
+- data = raw(CodeRay.scan(@item['value'], @item['type']).div(:css => :class))
+- value = link + data
+!= attribute_detail(@key, value)

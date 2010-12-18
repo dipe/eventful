@@ -1,8 +1,14 @@
 %h1 Eventful
 
-- @events.group_by { |e| e.created_at.strftime('%Y-%m-%d') }.each do |date, events|
+- @events.group_by { |e| l(e.created_at, :format => :iso_date) }.each do |date, events|
   .content
     %h2= date
     %ul{:class => "event_list"}
       - events.each do |event|
-        %li{:class => cycle("even", "odd", :name => "row_class")}= link_to event, event
+        %li{:class => cycle("even", "odd", :name => "row_class")}
+          %span{:class => "time"}= l event.created_at, :format => :time
+          %span{:class => "level#{event.level}"}= event.level_name
+          %span{:class => "application"}= "#{event.application}-#{event.environment}@#{event.node}"
+          %span{:class => "action"}= "#{event.controller}##{event.action}"
+          %span{:class => "title"}= link_to event.title, event
+          %span{:class => "message"}= truncate event.message

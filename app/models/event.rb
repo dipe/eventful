@@ -34,7 +34,11 @@ class Event < CouchModel::Base
   end
 
   def level_name
-    I18n.t("display_values.event.level.#{level || 0}")
+    I18n.t("display_values.event.level.#{level}")
+  end
+
+  def level
+    attributes['level'] || 0
   end
   
   def to_s

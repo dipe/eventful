@@ -36,11 +36,41 @@ ul.event_list {
 
 .event_list li {
   padding: 5px 5px;
-  font-weight: bold;
 }
 
 .event_list a {
   color: #F57340;
+}
+
+.event_list span {
+  padding-right: 10px;
+}
+
+.event_list .time {
+  font-weight: bold;
+}
+
+.event_list .message {
+  font-style: italic;
+}
+
+.event_list .level0 {
+  color: red;
+}
+
+.event_list .level1 {
+  color: orange;
+}
+
+.event_list .level2 {
+  color: yellow;
+}
+
+.event_list .level3 {
+}
+
+.event_list .level5 {
+  color: blue;
 }
 
 .even {
