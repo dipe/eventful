@@ -1,40 +1,46 @@
 class EventsController < ApplicationController
 
-  respond_to :js, :html
-  
   def index
-    @events = Event.all.to_a.sort_by { |e| e.created_at }.reverse
-    respond_with @events
+    @events = Event.recend(:descending => true).to_a
   end
 
+  def search
+    if params[:search][:contoller] && params[:search][:action]
+      startkey = params[:search].values_at(:environment, :application, :contoller, :action, :title)
+      events = Event.by_environment_and_application_and_controller_and_action_and_title(:startkey => startkey)
+    elseif params[:search][:node]
+      startkey = params[:search].values_at(:environment, :application, :node)
+      events = Event.by_environment_and_application_and_node(:startkey => startkey)
+    else
+      startkey = params[:search].values_at(:environment, :application, :title)
+      events = Event.by_environment_and_application_and_title(:startkey => startkey)
+    end
+
+    @events = events.to_a.sort_by(&:created_at).reverse
+    render :action => 'index'
+  end
+  
   def show
     @event = Event.find(params[:id])
-    respond_with @events
   end
 
   def create
     @event = Event.new(params[:event])
-    
-    respond_to do |format|
-      if @event.save
-        format.html { redirect_to(@event, :notice => 'Event was successfully created.') }
-        format.xml  { render :xml => @event, :status => :created, :location => @event }
-      else
-        render :xml => @event.errors, :status => :unprocessable_entity
-      end
+    if @event.save
+      render :xml => @event, :status => :created, :location => @event
+    else
+      render :xml => @event.errors, :status => :unprocessable_entity
     end
   end
 
   def hide_additional_data_item
     @event = Event.find(params[:id])
     @key = params[:key]
-    respond_with @events
   end
 
   def show_additional_data_item
     @event = Event.find(params[:id])
     @key = params[:key]
     @item = @event.additional_data.detect { |item| item['key'] == @key }
-    respond_with @events
   end
 end

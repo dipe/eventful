@@ -7,6 +7,9 @@ Eventful::Application.routes.draw do
       get :show_additional_data_item
       get :hide_additional_data_item
     end
+    collection do
+      get :search
+    end
   end
 
   unless Rails.env == 'production'

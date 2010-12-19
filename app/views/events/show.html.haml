@@ -13,4 +13,4 @@
     - @event.additional_data.each do |item|
       - @key = item['key']
       = render :partial => 'hide_additional_data_item'
-  %p= link_to I18n.t('phrases.back'), events_path
+  %p= link_to I18n.t('phrases.back'), :back

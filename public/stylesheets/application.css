@@ -10,6 +10,19 @@ h1, h2, h3 {
   color: #C43E0A;
 }
 
+h1 .count, h2 .count, h3 .count {
+  font-size: 70%;
+  font-weight: normal;  
+}
+
+h1 .count:before, h2 .count:before, h3 .count:before {
+  content: "(";
+}
+
+h1 .count:after, h2 .count:after, h3 .count:after {
+  content: ")";
+}
+
 a img {
   border: none;
 }
@@ -43,34 +56,70 @@ ul.event_list {
 }
 
 .event_list span {
-  padding-right: 10px;
 }
 
 .event_list .time {
+  padding-right: 10px;
   font-weight: bold;
 }
 
-.event_list .message {
-  font-style: italic;
-}
-
 .event_list .level0 {
+  padding-right: 10px;
   color: red;
 }
 
 .event_list .level1 {
+  padding-right: 10px;
   color: orange;
 }
 
 .event_list .level2 {
+  padding-right: 10px;
   color: yellow;
 }
 
 .event_list .level3 {
+  padding-right: 10px;
 }
 
 .event_list .level5 {
+  padding-right: 10px;
   color: blue;
+}
+
+.event_list .application {
+}
+
+.event_list .environment {
+}
+
+.event_list .environment:before {
+  content: "–";
+}
+
+.event_list .node:before {
+  content: "@";
+}
+
+.event_list .node {
+  padding-right: 10px;
+}
+
+.event_list .controller {
+  padding-right: 10px;
+}
+
+.event_list .action {
+  padding-right: 10px;
+}
+
+.event_list .title {
+  padding-right: 10px;
+}
+
+.event_list .message {
+  padding-right: 10px;
+  font-style: italic;
 }
 
 .even {

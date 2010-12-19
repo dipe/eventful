@@ -2,11 +2,12 @@ class Event < CouchModel::Base
 
   before_save :set_default_values
   
+  CouchModel::Configuration.design_directory = File.join(Rails.root, "app", "models", "designs")  
   setup_database :url => "http://localhost:5984/eventful-#{Rails.env}",
     :create_if_missing => true,
     :delete_if_exists => false,
     :push_design => true
-
+  
   key_accessor :level
   key_accessor :title
   key_accessor :message

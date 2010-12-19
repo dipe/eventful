@@ -1,0 +1,43 @@
+language: "javascript"
+views: {
+
+  all: {
+    map: "function(document) {
+      if (document['model_class'] == 'Event') {
+        emit(document['_id'], null);
+      }
+    }"
+  },
+
+  recend: {
+    map: "function(document) {
+      if (document['model_class'] == 'Event') {
+        emit(document.created_at, null);
+      }
+    }"
+  },
+
+  by_environment_and_application_and_controller_and_action_and_title: {
+    map: "function(document) {
+      if (document.application) {
+        emit([document.environment, document.application, document.controller, document.action, document.title], null);
+      }
+    }"
+  },
+
+  by_environment_and_application_and_title: {
+    map: "function(document) {
+      if (document.application) {
+        emit([document.environment, document.application, document.title], null);
+      }
+    }"
+  },
+
+  by_environment_and_application_and_node: {
+    map: "function(document) {
+      if (document.application) {
+        emit([document.environment, document.application, document.node], null);
+      }
+    }"
+  }
+}

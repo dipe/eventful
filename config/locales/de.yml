@@ -7,6 +7,10 @@ de:
     hide_ellipse: verbergen…
     back: zurück
 
+  event:
+    index:
+      Eventful
+
   display_values:
     event:
       level:
