@@ -33,7 +33,7 @@ describe "events/show.html.erb" do
     rendered.should match(/value for version/)
     rendered.should match(/value for controller/)
     rendered.should match(/value for action/)
-    rendered.should match(/#{Regexp.escape(@now.to_s)}/)
+    rendered.should match(/#{Regexp.escape(I18n.l(@now))}/)
   end
 
   describe "with empty values" do
@@ -41,6 +41,7 @@ describe "events/show.html.erb" do
       @event = assign(:event,
                       stub_model(Event,
                                  :id => 1,
+                                 :created_at => @now,
                                  :to_param => 'value for to_param'))
     end
     

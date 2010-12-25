@@ -40,11 +40,7 @@ describe EventsController do
         assigns(:event).should be(mock_event)
       end
 
-      it "redirects to the created event" do
-        Event.stub(:new) { mock_event(:save => true) }
-        post :create, :event => {}
-        response.should redirect_to(event_url(mock_event))
-      end
+      it "should response with the id of the newly created event"
     end
 
     describe "with invalid params" do
@@ -54,7 +50,7 @@ describe EventsController do
         assigns(:event).should be(mock_event)
       end
 
-      it "re-renders the 'new' template" do
+      it "should not respond with success" do
         Event.stub(:new) { mock_event(:save => false) }
         post :create, :event => {}
         response.should_not be_success

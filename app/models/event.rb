@@ -7,7 +7,35 @@ class Event < CouchModel::Base
     :create_if_missing => true,
     :delete_if_exists => false,
     :push_design => true
-  
+
+  def self.search(query, options = {})
+    if query[:controller] && query[:action] && query[:titel]
+      endkey = query.values_at(:environment, :application, :controller, :action, :title)
+      startkey = endkey + [{}]
+      Event.by_environment_and_application_and_controller_and_action_and_title(options.merge(:endkey => endkey, :startkey => startkey))
+    elsif query[:controller] && query[:action]
+      endkey = query.values_at(:environment, :application, :controller, :action)
+      startkey = endkey + [{}]
+      Event.by_environment_and_application_and_controller_and_action(options.merge(:endkey => endkey, :startkey => startkey))
+    elsif query[:controller]
+      endkey = query.values_at(:environment, :application, :controller)
+      startkey = endkey + [{}]
+      Event.by_environment_and_application_and_controller(options.merge(:endkey => endkey, :startkey => startkey))
+    elsif query[:node]
+      endkey = query.values_at(:environment, :application, :node)
+      startkey = endkey + [{}]
+      Event.by_environment_and_application_and_node(options.merge(:endkey => endkey, :startkey => startkey))
+    elsif query[:title]
+      endkey = query.values_at(:environment, :application, :title)
+      startkey = endkey + [{}]
+      Event.by_environment_and_application_and_title(options.merge(:endkey => endkey, :startkey => startkey))
+    else
+      endkey = query.values_at(:environment, :application)
+      startkey = endkey + [{}]
+      Event.by_environment_and_application(options.merge(:endkey => endkey, :startkey => startkey))
+    end
+  end
+ 
   key_accessor :level
   key_accessor :title
   key_accessor :message
@@ -39,10 +67,6 @@ class Event < CouchModel::Base
   end
 
   def level
-    attributes['level'] || 0
-  end
-  
-  def to_s
-    "#{created_at}: #{level_name} #{application}-#{environment}@#{node} (#{controller}##{action}) #{title} [#{message}]"
+    attributes['level'] || 1
   end
 end

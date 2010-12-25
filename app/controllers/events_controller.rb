@@ -1,22 +1,11 @@
 class EventsController < ApplicationController
 
   def index
-    @events = Event.recend(:descending => true).to_a
+    @events = Event.all(:descending => true, :limit => 200).to_a
   end
 
   def search
-    if params[:search][:contoller] && params[:search][:action]
-      startkey = params[:search].values_at(:environment, :application, :contoller, :action, :title)
-      events = Event.by_environment_and_application_and_controller_and_action_and_title(:startkey => startkey)
-    elseif params[:search][:node]
-      startkey = params[:search].values_at(:environment, :application, :node)
-      events = Event.by_environment_and_application_and_node(:startkey => startkey)
-    else
-      startkey = params[:search].values_at(:environment, :application, :title)
-      events = Event.by_environment_and_application_and_title(:startkey => startkey)
-    end
-
-    @events = events.to_a.sort_by(&:created_at).reverse
+    @events = Event.search(params[:search], :descending => true, :limit => 200).to_a
     render :action => 'index'
   end
   

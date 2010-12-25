@@ -49,7 +49,7 @@ module EventsHelper
     query = {
       :environment => event.environment,
       :application => event.application,
-      :title => event.node
+      :node => event.node
     }
     link_to(title, search_events_path({:search => query}))
   end

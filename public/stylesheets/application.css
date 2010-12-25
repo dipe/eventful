@@ -23,11 +23,19 @@ h1 .count:after, h2 .count:after, h3 .count:after {
   content: ")";
 }
 
-a img {
-  border: none;
+.query_keys h2 {
+  display: inline;
+}
+
+.query_keys h2:before {
+  content: '~ '
 }
 
 a {
+  color: #FFAF33;
+}
+
+a:visited {
   color: #F57340;
 }
 
@@ -49,13 +57,7 @@ ul.event_list {
 
 .event_list li {
   padding: 5px 5px;
-}
-
-.event_list a {
-  color: #F57340;
-}
-
-.event_list span {
+  color: #BBB;
 }
 
 .event_list .time {
@@ -106,7 +108,10 @@ ul.event_list {
 }
 
 .event_list .controller {
-  padding-right: 10px;
+}
+
+.event_list .action:before {
+  content: "#";
 }
 
 .event_list .action {
