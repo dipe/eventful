@@ -1,41 +1,38 @@
 class Event < CouchModel::Base
 
   before_save :set_default_values
-  
-  CouchModel::Configuration.design_directory = File.join(Rails.root, "app", "models", "designs")  
+
+  CouchModel::Configuration.design_directory = File.join(Rails.root, "app", "models", "designs")
   setup_database :url => "http://localhost:5984/eventful-#{Rails.env}",
     :create_if_missing => true,
     :delete_if_exists => false,
     :push_design => true
 
   def self.search(query, options = {})
-    if query[:controller] && query[:action] && query[:titel]
-      endkey = query.values_at(:environment, :application, :controller, :action, :title)
-      startkey = endkey + [{}]
-      Event.by_environment_and_application_and_controller_and_action_and_title(options.merge(:endkey => endkey, :startkey => startkey))
-    elsif query[:controller] && query[:action]
-      endkey = query.values_at(:environment, :application, :controller, :action)
-      startkey = endkey + [{}]
-      Event.by_environment_and_application_and_controller_and_action(options.merge(:endkey => endkey, :startkey => startkey))
-    elsif query[:controller]
-      endkey = query.values_at(:environment, :application, :controller)
-      startkey = endkey + [{}]
-      Event.by_environment_and_application_and_controller(options.merge(:endkey => endkey, :startkey => startkey))
-    elsif query[:node]
-      endkey = query.values_at(:environment, :application, :node)
-      startkey = endkey + [{}]
-      Event.by_environment_and_application_and_node(options.merge(:endkey => endkey, :startkey => startkey))
-    elsif query[:title]
-      endkey = query.values_at(:environment, :application, :title)
-      startkey = endkey + [{}]
-      Event.by_environment_and_application_and_title(options.merge(:endkey => endkey, :startkey => startkey))
-    else
-      endkey = query.values_at(:environment, :application)
-      startkey = endkey + [{}]
-      Event.by_environment_and_application(options.merge(:endkey => endkey, :startkey => startkey))
+    q = query.with_indifferent_access
+
+    columns = columns_from(q)
+    method = view_method_from(columns)
+    startkey = q.values_at(*columns)
+    endkey = startkey + [{}]
+
+    if options[:descending]
+      e = endkey
+      endkey = startkey
+      startkey = e
     end
+
+    Event.send(method, options.merge(:startkey => startkey, :endkey => endkey))
   end
- 
+
+  def self.view_method_from(columns)
+    "by_" + columns.join('_and_')
+  end
+
+  def self.columns_from(query)
+    %w(environment application controller action title node).select { |c| query.has_key? c }
+  end
+
   key_accessor :level
   key_accessor :title
   key_accessor :message
