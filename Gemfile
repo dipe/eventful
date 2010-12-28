@@ -5,6 +5,7 @@ gem "couchmodel", :require => "couch_model"
 gem 'jquery-rails'
 gem 'coderay'
 gem 'haml'
+gem 'will_paginate'
 
 if RUBY_PLATFORM =~ /java/
   gem "json-jruby"

@@ -10,19 +10,23 @@ class Event < CouchModel::Base
 
   def self.search(query, options = {})
     q = query.with_indifferent_access
-
     columns = columns_from(q)
-    method = view_method_from(columns)
-    startkey = q.values_at(*columns)
-    endkey = startkey + [{}]
 
-    if options[:descending]
-      e = endkey
-      endkey = startkey
-      startkey = e
+    if columns.empty?
+      Event.all(options) 
+    else
+      method = view_method_from(columns)
+      startkey = q.values_at(*columns)
+      endkey = startkey + [{}]
+      
+      if options[:descending]
+        e = endkey
+        endkey = startkey
+        startkey = e
+      end
+      
+      Event.send(method, options.merge(:startkey => startkey, :endkey => endkey))
     end
-
-    Event.send(method, options.merge(:startkey => startkey, :endkey => endkey))
   end
 
   def self.view_method_from(columns)

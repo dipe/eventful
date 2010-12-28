@@ -14,7 +14,7 @@ module EventsHelper
       :environment => event.environment,
       :application => event.application
     }
-    link_to(title, search_events_path({:search => query}))
+    link_to(title, events_path({:query => query}))
   end
 
   def link_to_event_by_application_and_action(title, event)
@@ -24,7 +24,7 @@ module EventsHelper
       :controller => event.controller,
       :action => event.action
     }
-    link_to(title, search_events_path({:search => query}))
+    link_to(title, events_path({:query => query}))
   end
 
   def link_to_event_by_application_and_controller(title, event)
@@ -33,7 +33,7 @@ module EventsHelper
       :application => event.application,
       :controller => event.controller
     }
-    link_to(title, search_events_path({:search => query}))
+    link_to(title, events_path({:query => query}))
   end
 
   def link_to_event_by_application_and_title(title, event)
@@ -42,7 +42,7 @@ module EventsHelper
       :application => event.application,
       :title => event.title
     }
-    link_to(title, search_events_path({:search => query}))
+    link_to(title, events_path({:query => query}))
   end
 
   def link_to_event_by_application_and_node(title, event)
@@ -51,6 +51,6 @@ module EventsHelper
       :application => event.application,
       :node => event.node
     }
-    link_to(title, search_events_path({:search => query}))
+    link_to(title, events_path({:query => query}))
   end
 end

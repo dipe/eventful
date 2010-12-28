@@ -1,6 +1,10 @@
 %h1<
   = t 'event.index'
 
+%p= link_to I18n.t('phrases.all'), events_path
+
+%p= will_paginate @events
+
 - @events.group_by { |e| l(e.created_at, :format => :iso_date) }.each do |date, events_per_day|
   .content
     %h3<
@@ -27,3 +31,7 @@
           %span{:class => "title"}><
             = link_to_event_by_application_and_title(truncate(event.title), event)
           = link_to t('phrases.show_ellipse'), event
+
+%p= link_to I18n.t('phrases.all'), events_path
+
+%p= will_paginate @events
