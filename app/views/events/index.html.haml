@@ -1,7 +1,8 @@
 %h1<
   = t 'event.index'
 
-%p= link_to I18n.t('phrases.all'), events_path
+- unless @query.empty?
+  %p= link_to I18n.t('phrases.all'), events_path
 
 %p= will_paginate @events
 

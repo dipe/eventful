@@ -4,7 +4,16 @@ views: {
   all: {
     map: "function(document) {
       if (document['model_class'] == 'Event') {
-        emit(document.created_at, null);
+        var created_on_date = document.created_at.replace(/ .*$/, '');
+        var created_at_time = document.created_at.replace(/^[-\d]+ /, '');
+        emit([created_on_date, created_at_time], null);
+      }
+    }",
+    reduce: "function(key, values, rereduce) {
+      if (rereduce) {
+        return sum(values);
+      } else {
+        return values.length;
       }
     }"
   },
@@ -14,6 +23,13 @@ views: {
       if (document['model_class'] == 'Event') {
         emit([document.environment, document.application, document.created_at], null);
       }
+    }",
+    reduce: "function(key, values, rereduce) {
+      if (rereduce) {
+        return sum(values);
+      } else {
+        return values.length;
+      }
     }"
   },
 
@@ -21,6 +37,13 @@ views: {
     map: "function(document) {
       if (document['model_class'] == 'Event') {
         emit([document.environment, document.application, document.title, document.created_at], null);
+      }
+    }",
+    reduce: "function(key, values, rereduce) {
+      if (rereduce) {
+        return sum(values);
+      } else {
+        return values.length;
       }
     }"
   },
@@ -30,6 +53,13 @@ views: {
       if (document['model_class'] == 'Event') {
         emit([document.environment, document.application, document.node, document.created_at], null);
       }
+    }",
+    reduce: "function(key, values, rereduce) {
+      if (rereduce) {
+        return sum(values);
+      } else {
+        return values.length;
+      }
     }"
   },
 
@@ -37,6 +67,13 @@ views: {
     map: "function(document) {
       if (document['model_class'] == 'Event') {
         emit([document.environment, document.application, document.controller, document.created_at], null);
+      }
+    }",
+    reduce: "function(key, values, rereduce) {
+      if (rereduce) {
+        return sum(values);
+      } else {
+        return values.length;
       }
     }"
   },
@@ -46,13 +83,27 @@ views: {
       if (document['model_class'] == 'Event') {
         emit([document.environment, document.application, document.controller, document.action, document.created_at], null);
       }
+    }",
+    reduce: "function(key, values, rereduce) {
+      if (rereduce) {
+        return sum(values);
+      } else {
+        return values.length;
+      }
     }"
   },
 
   by_environment_and_application_and_controller_and_action_and_title: {
     map: "function(document) {
       if (document['model_class'] == 'Event') {
-        emit([document.environment, document.application, document.controller, document.action, document.title, document.created_at], null);
+emit([document.environment, document.application, document.controller, document.action, document.title, document.created_at], null);
+      }
+    }",
+    reduce: "function(key, values, rereduce) {
+      if (rereduce) {
+        return sum(values);
+      } else {
+        return values.length;
       }
     }"
   }

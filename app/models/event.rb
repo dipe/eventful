@@ -1,19 +1,40 @@
+# -*- coding: utf-8 -*-
 class Event < CouchModel::Base
 
   before_save :set_default_values
-
+  
+  # FIXME: should be moved into environment/….rb
   CouchModel::Configuration.design_directory = File.join(Rails.root, "app", "models", "designs")
   setup_database :url => "http://localhost:5984/eventful-#{Rails.env}",
     :create_if_missing => true,
     :delete_if_exists => false,
     :push_design => true
 
-  def self.search(query, options = {})
+  def self.find(*args)
+    case args.first
+    when String
+      # find by Id
+      super
+    when Hash
+      # find by query
+      query = args.first
+      options = args.extract_options!
+      find_by_view(query, options.merge(:reduce => false))
+    else
+      raise ArgumentError
+    end
+  end
+
+  def self.count(query, options = {})
+    find_by_view(query, options.merge(:returns => :rows, :group_level => 0)).first.value
+  end
+
+  def self.find_by_view(query, options = {})
     q = query.with_indifferent_access
     columns = columns_from(q)
-
+      
     if columns.empty?
-      Event.all(options) 
+      Event.all(options)
     else
       method = view_method_from(columns)
       startkey = q.values_at(*columns)
@@ -26,9 +47,9 @@ class Event < CouchModel::Base
       end
       
       Event.send(method, options.merge(:startkey => startkey, :endkey => endkey))
-    end
+    end    
   end
-
+  
   def self.view_method_from(columns)
     "by_" + columns.join('_and_')
   end

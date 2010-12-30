@@ -1,6 +1,6 @@
 Eventful::Application.routes.draw do
 
-  root :to => "events#index"
+  match "/" => redirect("/events")
   
   resources :events do
     member do

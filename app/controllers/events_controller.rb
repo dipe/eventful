@@ -1,9 +1,10 @@
 class EventsController < ApplicationController
 
   def index
-    query = params[:query] || {}
-    @events = WillPaginate::Collection.create(params[:page] || 1, 200, Event.search(query, :returns => :rows).size) do |pager|
-      events = Event.search(query, :descending => true, :skip => pager.offset, :limit => pager.per_page).to_a
+    @query = params[:query] || {}
+    @page = params[:page] || 1
+    @events = WillPaginate::Collection.create(@page, 200, Event.count(@query)) do |pager|
+      events = Event.find(@query, :descending => true, :skip => pager.offset, :limit => pager.per_page).to_a
       pager.replace(events)
     end
   end
