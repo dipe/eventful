@@ -16,29 +16,38 @@ describe Event do
         :application => 'value for application',
         :controller => 'value for controller'
       }
-      @values = ['value for environment', 'value for application', 'value for controller']
+      @values = @query.values
+    end
+    
+    it "should delegate to superclass find if query is a string" do
+      Event.superclass.should_receive(:find).with("value for id")
+      Event.find("value for id")      
+    end
+
+    it "should find all if query is empty" do
+      Event.should_receive(:all)
+      Event.find({})      
     end
     
     it "should call view methods based on query" do
       Event.should_receive(:by_environment_and_application_and_controller)
-      Event.search(@query)
-      
+      Event.find(@query)      
     end
     
     it "should call view methods with options" do
       options = {:option => 'value for option'}
       Event.should_receive(:by_environment_and_application_and_controller).with(hash_including(options))
-      Event.search(@query, options)
+      Event.find(@query, options)
     end
 
     it "should calculate startkey and endkey" do
-      Event.should_receive(:by_environment_and_application_and_controller).with(:startkey => @values, :endkey => @values + [{}])
-      Event.search(@query)
+      Event.should_receive(:by_environment_and_application_and_controller).with(hash_including(:startkey => @values, :endkey => @values + [{}]))
+      Event.find(@query)
     end
 
     it "should swap startkey and endkey if option descending is true" do
-      Event.should_receive(:by_environment_and_application_and_controller).with(:endkey => @values, :startkey => @values + [{}], :descending => true)
-      Event.search(@query, :descending => true)
+      Event.should_receive(:by_environment_and_application_and_controller).with(hash_including(:endkey => @values, :startkey => @values + [{}], :descending => true))
+      Event.find(@query, :descending => true)
     end
   end
 end
