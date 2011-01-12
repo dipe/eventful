@@ -10,8 +10,6 @@ describe "events/show.html.erb" do
                                :title => "value for title",
                                :message => "value for message",
                                :application => "value for application",
-                               :environment => "value for environment",
-                               :version => "value for version",
                                :controller => "value for controller",
                                :action => "value for action",
                                :request_url => "value for request_url",
@@ -29,8 +27,6 @@ describe "events/show.html.erb" do
     rendered.should match(/value for title/)
     rendered.should match(/value for message/)
     rendered.should match(/value for application/)
-    rendered.should match(/value for environment/)
-    rendered.should match(/value for version/)
     rendered.should match(/value for controller/)
     rendered.should match(/value for action/)
     rendered.should match(/#{Regexp.escape(I18n.l(@now))}/)
@@ -40,6 +36,7 @@ describe "events/show.html.erb" do
     before(:each) do
       @event = assign(:event,
                       stub_model(Event,
+                                 :application => nil,
                                  :id => 1,
                                  :created_at => @now,
                                  :to_param => 'value for to_param'))
@@ -50,8 +47,6 @@ describe "events/show.html.erb" do
       rendered.should_not match(/value for title/)
       rendered.should_not match(/value for message/)
       rendered.should_not match(/value for application/)
-      rendered.should_not match(/value for environment/)
-      rendered.should_not match(/value for version/)
       rendered.should_not match(/value for controller/)
       rendered.should_not match(/value for action/)
     end

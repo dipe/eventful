@@ -1,14 +1,15 @@
 Eventful::Application.routes.draw do
 
-  match "/" => redirect("/events")
-  
-  resources :events do
-    member do
-      get :show_additional_data_item
-      get :hide_additional_data_item
+  resources :accounts do
+    resources :events do
+      member do
+        get :show_additional_data_item
+        get :hide_additional_data_item
+      end
     end
   end
 
+  # for test purposes only
   unless Rails.env == 'production'
     get "test" => "test_client#errors"
     post "test/throw" => "test_client#throw"

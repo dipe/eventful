@@ -5,7 +5,7 @@
 
   %p= @event.message
 
-  - [:application, :environment, :version, :controller, :action, :request_url, :session_id, :node, :pid, :backtrace].each do |name|
+  - [:application, :controller, :action, :request_url, :session_id, :node, :pid, :backtrace].each do |name|
     - if value = @event.send(name)
       = attribute_detail(name, value.to_s)
   

@@ -16,7 +16,7 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(params[:event])
     if @event.save
-      render :xml => @event, :status => :created, :location => @event
+      render :xml => @event, :status => :created, :location => account_event_path(params[:account_id], @event)
     else
       render :xml => @event.errors, :status => :unprocessable_entity
     end

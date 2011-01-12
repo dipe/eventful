@@ -17,43 +17,37 @@ describe EventsController do
     it "assigns found events as @events" do
       WillPaginate::Collection.should_receive(:create).and_return(@events)
       
-      get :index
+      get :index, :account_id => 'value for account_id'
       assigns(:events).should == @events
     end
 
-    it "call events search method twice - 1st for size, 2nd for event list" do
-      @events.should_receive(:size).and_return('value for size')
-      Event.should_receive(:search).twice.and_return(@events)
-
-      get :index
+    it "call events#find" do
+      Event.stub(:count) { 'value for count' }
+      Event.should_receive(:find).and_return(@events)
+      get :index, :account_id => 'value for account_id'
     end
 
     describe "with query" do
     
-      it "pass query to events search method" do
-        @events.stub(:size) { 'value for size' }
-
-        Event.should_receive(:search).twice.with({'foo' => 'value for foo', 'bar' => 'value for bar'}, kind_of(Hash)).and_return(@events)
-
-        get :index, :query => {'foo' => 'value for foo', 'bar' => 'value for bar'}
+      it "pass query to events find method" do
+        query = {'foo' => 'value for foo', 'bar' => 'value for bar'}
+        Event.should_receive(:count).with(query).and_return('value for count')
+        Event.should_receive(:find).with(query, kind_of(Hash)).and_return(@events)
+        get :index, :account_id => 'value for account_id', :query => query
       end
 
-      it "pass this options to events search method" do      
-        @events.stub(:size) { 'value for size' }
-
-        Event.should_receive(:search).
-          with(any_args).
-          and_return(@events)
-        Event.should_receive(:search).
+      it "pass special options to events find method" do      
+        Event.stub(:count) { 'value for count' }
+        Event.should_receive(:find).
           with(kind_of(Hash), {:descending => true, :skip => 'value for offset', :limit => 'value for per_page'}).
           and_return(@events)
 
         pager = mock(:pager, :per_page => 'value for per_page', :offset => 'value for offset', :replace => nil)
         WillPaginate::Collection.should_receive(:create).
-          with('value for page', kind_of(Fixnum), 'value for size').
+          with('value for page', kind_of(Fixnum), 'value for count').
           and_yield(pager).and_return(@events)
 
-        get :index, :page => 'value for page'
+        get :index, :account_id => 'value for account_id', :page => 'value for page'
       end
     end
   end
@@ -61,7 +55,7 @@ describe EventsController do
   describe "GET show" do
     it "assigns the requested event as @event" do
       Event.stub(:find).with("37") { mock_event }
-      get :show, :id => "37"
+      get :show, :account_id => 'value for account_id', :id => "37"
       assigns(:event).should be(mock_event)
     end
   end
@@ -69,7 +63,7 @@ describe EventsController do
   describe "GET show_additional_data" do
     it "assigns the requested event as @event" do
       Event.stub(:find).with("37") { mock_event }
-      get :show, :id => "37"
+      get :show, :account_id => 'value for account_id', :id => "37"
       assigns(:event).should be(mock_event)
     end
   end
@@ -78,7 +72,7 @@ describe EventsController do
     describe "with valid params" do
       it "assigns a newly created event as @event" do
         Event.stub(:new).with({'these' => 'params'}) { mock_event(:save => true) }
-        post :create, :event => {'these' => 'params'}
+        post :create, :account_id => 'value for account_id', :event => {'these' => 'params'}
         assigns(:event).should be(mock_event)
       end
 
@@ -88,13 +82,13 @@ describe EventsController do
     describe "with invalid params" do
       it "assigns a newly created but unsaved event as @event" do
         Event.stub(:new).with({'these' => 'params'}) { mock_event(:save => false) }
-        post :create, :event => {'these' => 'params'}
+        post :create, :account_id => 'value for account_id', :event => {'these' => 'params'}
         assigns(:event).should be(mock_event)
       end
 
       it "should not respond with success" do
         Event.stub(:new) { mock_event(:save => false) }
-        post :create, :event => {}
+        post :create, :account_id => 'value for account_id', :event => {}
         response.should_not be_success
       end
     end

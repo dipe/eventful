@@ -1,6 +1,9 @@
 module Eventful
+
+  AccountID = 123456789890
+  
   class Event < ActiveResource::Base
-    self.site = "http://0.0.0.0:3000"
+    self.site = "http://0.0.0.0:3000/account/#{AccountID}"
 
     # self.proxy = "http://user:password@proxy.people.com:8080"
 
@@ -14,8 +17,6 @@ module Eventful
     def self.put(params = {})
       event = new
 
-      event.application = Rails.application.class.to_s.split("::").first
-      event.environment = Rails.env
       event.node = `hostname -s`.chomp
       event.pid = $$
       event.additional_data = []

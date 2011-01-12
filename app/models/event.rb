@@ -1,14 +1,39 @@
 # -*- coding: utf-8 -*-
 class Event < CouchModel::Base
 
-  before_save :set_default_values
-  
   # FIXME: should be moved into environment/….rb
   CouchModel::Configuration.design_directory = File.join(Rails.root, "app", "models", "designs")
   setup_database :url => "http://localhost:5984/eventful-#{Rails.env}",
     :create_if_missing => true,
     :delete_if_exists => false,
     :push_design => true
+
+  validates_presence_of :account
+  
+  delegate :application, :to => :accout
+  
+  before_save :set_default_values
+
+  belongs_to :account, :class_name => "Account"
+
+  key_accessor :level
+  key_accessor :title
+  key_accessor :message
+  key_accessor :controller
+  key_accessor :action
+  key_accessor :request_url
+  key_accessor :request_params
+  key_accessor :request_data_type
+  key_accessor :request_data
+  key_accessor :session_id
+  key_accessor :session_data_type
+  key_accessor :session_data
+  key_accessor :additional_data_type
+  key_accessor :additional_data
+  key_accessor :backtrace
+  key_accessor :node
+  key_accessor :pid
+  key_accessor :created_at, :type => :time
 
   def self.find(*args)
     case args.first
@@ -57,28 +82,6 @@ class Event < CouchModel::Base
   def self.columns_from(query)
     %w(environment application controller action title node).select { |c| query.has_key? c }
   end
-
-  key_accessor :level
-  key_accessor :title
-  key_accessor :message
-  key_accessor :application
-  key_accessor :environment
-  key_accessor :version
-  key_accessor :controller
-  key_accessor :action
-  key_accessor :request_url
-  key_accessor :request_params
-  key_accessor :request_data_type
-  key_accessor :request_data
-  key_accessor :session_id
-  key_accessor :session_data_type
-  key_accessor :session_data
-  key_accessor :additional_data_type
-  key_accessor :additional_data
-  key_accessor :backtrace
-  key_accessor :node
-  key_accessor :pid
-  key_accessor :created_at, :type => :time
 
   def set_default_values
     self.created_at ||= Time.now

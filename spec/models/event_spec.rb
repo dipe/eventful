@@ -36,17 +36,20 @@ describe Event do
     
     it "should call view methods with options" do
       options = {:option => 'value for option'}
-      Event.should_receive(:by_environment_and_application_and_controller).with(hash_including(options))
+      Event.should_receive(:by_environment_and_application_and_controller).
+        with(hash_including(options))
       Event.find(@query, options)
     end
 
     it "should calculate startkey and endkey" do
-      Event.should_receive(:by_environment_and_application_and_controller).with(hash_including(:startkey => @values, :endkey => @values + [{}]))
+      Event.should_receive(:by_environment_and_application_and_controller).
+        with(hash_including(:startkey => @values, :endkey => @values + [{}]))
       Event.find(@query)
     end
 
     it "should swap startkey and endkey if option descending is true" do
-      Event.should_receive(:by_environment_and_application_and_controller).with(hash_including(:endkey => @values, :startkey => @values + [{}], :descending => true))
+      Event.should_receive(:by_environment_and_application_and_controller).
+        with(hash_including(:endkey => @values, :startkey => @values + [{}], :descending => true))
       Event.find(@query, :descending => true)
     end
   end
