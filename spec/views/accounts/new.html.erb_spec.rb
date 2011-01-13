@@ -2,9 +2,10 @@ require 'spec_helper'
 
 describe "accounts/new.html.erb" do
   before(:each) do
-    assign(:account, stub_model(Account,
-      :name => "MyString"
-    ).as_new_record)
+    assign(:account,
+           stub_model(Account,
+                      :name => 'value for name'
+                      ).as_new_record)
   end
 
   it "renders new account form" do

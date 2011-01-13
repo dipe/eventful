@@ -2,7 +2,7 @@
   = t 'event.index'
 
 - unless @query.blank?
-  %p= link_to I18n.t('phrases.all'), events_path
+  %p= link_to I18n.t('phrases.all'), account_events_path
 
 %p= will_paginate @events
 
@@ -33,6 +33,6 @@
             = link_to_event_by_application_and_title(truncate(event.title), event)
           = link_to t('phrases.show_ellipse'), event
 
-%p= link_to I18n.t('phrases.all'), events_path
+%p= link_to I18n.t('phrases.all'), account_events_path
 
 %p= will_paginate @events

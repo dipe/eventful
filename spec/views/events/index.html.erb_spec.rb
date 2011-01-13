@@ -3,25 +3,25 @@ require 'spec_helper'
 describe "events/index.html.erb" do
   before(:each) do
     @now = Time.now
-    assign(:events,
-           [
-            stub_model(Event,
-                       :node => "value for node",
-                       :application => "value for application",
-                       :environment => "value for environment",
-                       :action => "value for action",
-                       :created_at => @now,
-                       :to_param => 'value for to_param1'
-                       ),
-            stub_model(Event,
-                       :node => "value for node",
-                       :application => "value for application",
-                       :environment => "value for environment",
-                       :action => "value for action",
-                       :created_at => @now,
-                       :to_param => 'value for to_param2'
-                       )
-           ])
+    events = [stub_model(Event,
+                         :node => "value for node",
+                         :application => "value for application",
+                         :environment => "value for environment",
+                         :action => "value for action",
+                         :created_at => @now,
+                         :to_param => 'value for to_param1'
+                         ),
+              stub_model(Event,
+                         :node => "value for node",
+                         :application => "value for application",
+                         :environment => "value for environment",
+                         :action => "value for action",
+                         :created_at => @now,
+                         :to_param => 'value for to_param2'
+                         )
+             ]
+    events.stub!(:total_pages).and_return(0)
+    assign(:events, events)
   end
 
   it "renders a list of events" do
