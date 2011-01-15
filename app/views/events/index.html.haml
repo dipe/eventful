@@ -1,5 +1,5 @@
 %h1<
-  = t 'event.index'
+  = link_to @account.application, @account
 
 - unless @query.blank?
   %p= link_to I18n.t('phrases.all'), account_events_path
@@ -20,19 +20,17 @@
           %span{:class => "level#{event.level}"}><
             = event.level_name
           %span{:class => "application"}><
-            = link_to_event_by_application(event.application, event)
-          %span{:class => "environment"}><
-            = link_to_event_by_application(event.environment, event)
+            = event.application
           %span{:class => "node"}><
-            = link_to_event_by_application_and_node(event.node, event)
+            = event.node
           %span{:class => "controller"}><
-            = link_to_event_by_application_and_controller(event.controller, event)
+            = event.controller
           %span{:class => "action"}><
-            = link_to_event_by_application_and_action(event.action, event)
+            = event.action
           %span{:class => "title"}><
-            = link_to_event_by_application_and_title(truncate(event.title), event)
-          = link_to t('phrases.show_ellipse'), event
+            = truncate(event.title)
+          = link_to t('phrases.show_ellipse'), account_event_path(@account, event)
 
-%p= link_to I18n.t('phrases.all'), account_events_path
+%p= link_to I18n.t('phrases.all'), account_events_path(@account)
 
 %p= will_paginate @events

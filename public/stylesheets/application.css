@@ -92,13 +92,6 @@ ul.event_list {
 .event_list .application {
 }
 
-.event_list .environment {
-}
-
-.event_list .environment:before {
-  content: "–";
-}
-
 .event_list .node:before {
   content: "@";
 }

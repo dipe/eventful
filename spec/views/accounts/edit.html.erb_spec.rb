@@ -4,7 +4,7 @@ describe "accounts/edit.html.erb" do
   before(:each) do
     @account = assign(:account,
                       stub_model(Account,
-                                 :name => 'value for name',
+                                 :application => 'value for application',
                                  :id => 'value for to_params'
                                  ))
   end
@@ -13,7 +13,7 @@ describe "accounts/edit.html.erb" do
     render
 
     assert_select "form", :action => account_path(@account), :method => "post" do
-      assert_select "input#account_name", :name => "account[name]"
+      assert_select "input#account_application", :application => "account[application]"
     end
   end
 end

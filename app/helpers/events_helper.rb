@@ -9,17 +9,8 @@ module EventsHelper
     end
   end
 
-  def link_to_event_by_application(title, event)
-    query = {
-      :environment => event.environment,
-      :application => event.application
-    }
-    link_to(title, account_events_path({:query => query}))
-  end
-
   def link_to_event_by_application_and_action(title, event)
     query = {
-      :environment => event.environment,
       :application => event.application,
       :controller => event.controller,
       :action => event.action
@@ -29,7 +20,6 @@ module EventsHelper
 
   def link_to_event_by_application_and_controller(title, event)
     query = {
-      :environment => event.environment,
       :application => event.application,
       :controller => event.controller
     }
@@ -38,7 +28,6 @@ module EventsHelper
 
   def link_to_event_by_application_and_title(title, event)
     query = {
-      :environment => event.environment,
       :application => event.application,
       :title => event.title
     }
@@ -47,7 +36,6 @@ module EventsHelper
 
   def link_to_event_by_application_and_node(title, event)
     query = {
-      :environment => event.environment,
       :application => event.application,
       :node => event.node
     }

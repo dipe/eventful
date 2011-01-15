@@ -2,7 +2,7 @@
 
 <table>
   <tr>
-    <th>Name</th>
+    <th>Application</th>
     <th></th>
     <th></th>
     <th></th>
@@ -10,7 +10,7 @@
 
 <% @accounts.each do |account| %>
   <tr>
-    <td><%= account.name %></td>
+    <td><%= account.application %></td>
     <td><%= link_to 'Show', account %></td>
     <td><%= link_to 'Edit', edit_account_path(account) %></td>
     <td><%= link_to 'Destroy', account, :confirm => 'Are you sure?', :method => :delete %></td>

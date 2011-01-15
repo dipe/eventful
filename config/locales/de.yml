@@ -8,10 +8,6 @@ de:
     back: zurück
     all: alle
 
-  event:
-    index:
-      Eventful
-
   display_values:
     event:
       level:

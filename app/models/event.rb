@@ -10,7 +10,7 @@ class Event < CouchModel::Base
 
   validates_presence_of :account
   
-  delegate :application, :to => :accout
+  delegate :application, :to => :account
   
   before_save :set_default_values
 
@@ -80,7 +80,7 @@ class Event < CouchModel::Base
   end
 
   def self.columns_from(query)
-    %w(environment application controller action title node).select { |c| query.has_key? c }
+    %w(account controller action title node).select { |c| query.has_key? c }
   end
 
   def set_default_values

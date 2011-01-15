@@ -1,5 +1,7 @@
 class EventsController < ApplicationController
 
+  before_filter :prepare_account
+  
   def index
     @query = params[:query] || {}
     @page = params[:page] || 1
@@ -12,11 +14,11 @@ class EventsController < ApplicationController
   def show
     @event = Event.find(params[:id])
   end
-
+  
   def create
     @event = Event.new(params[:event])
     if @event.save
-      render :xml => @event, :status => :created, :location => account_event_path(params[:account_id], @event)
+      render :xml => @event, :status => :created, :location => account_event_path(@account, @event)
     else
       render :xml => @event.errors, :status => :unprocessable_entity
     end
@@ -31,5 +33,11 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     @key = params[:key]
     @item = @event.additional_data.detect { |item| item['key'] == @key }
+  end
+
+  private
+
+  def prepare_account
+    @account = Account.find(params[:account_id])
   end
 end
