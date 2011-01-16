@@ -5,8 +5,20 @@ de:
   phrases:
     show_ellipse: anzeigen…
     hide_ellipse: verbergen…
+    show: anzeigen
     back: zurück
+    edit: bearbeiten
     all: alle
+    are_you_sure: Bist du sicher?
+    destroy: löschen
+
+  accounts:
+    edit:
+      heading: Konto bearbeiten
+    index:
+      heading: Konten
+    new:
+      heading: Konto anlegen
 
   display_values:
     event:
@@ -18,6 +30,13 @@ de:
         '4': Diagnose
 
   activemodel:
+    models:
+      event:
+        one: Ereignis
+        other: Ereignisse
+      account:
+        one: Konto
+        other: Konten
     attributes:
       event:
         title: Ereignis
@@ -32,12 +51,48 @@ de:
         request_data: Request-Daten
         session_data: Session-Daten
         level: Dringlichkeit
-    errors:
-      template:
-        header:
-          one:    "Konnte %{model} nicht speichern: ein Fehler."
-          other:  "Konnte %{model} nicht speichern: %{count} Fehler."
-        body: "Bitte überprüfen Sie die folgenden Felder:"
+      account:
+        application: Anwendung
+
+  errors:
+    template:
+      header:
+        one:    "Konnte %{model} nicht speichern: ein Fehler."
+        other:  "Konnte %{model} nicht speichern: %{count} Fehler."
+      body: "Bitte überprüfen Sie die folgenden Felder:"
+    format: "%{attribute} %{message}"
+    messages: &errors_messages
+      inclusion: "ist kein gültiger Wert"
+      exclusion: "ist nicht verfügbar"
+      invalid: "ist nicht gültig"
+      confirmation: "stimmt nicht mit der Bestätigung überein"
+      accepted: "muss akzeptiert werden"
+      empty: "muss ausgefüllt werden"
+      blank: "muss ausgefüllt werden"
+      too_long: "ist zu lang (nicht mehr als %{count} Zeichen)"
+      too_short: "ist zu kurz (nicht weniger als %{count} Zeichen)"
+      wrong_length: "hat die falsche Länge (muss genau %{count} Zeichen haben)"
+      not_a_number: "ist keine Zahl"
+      greater_than: "muss größer als %{count} sein"
+      greater_than_or_equal_to: "muss größer oder gleich %{count} sein"
+      equal_to: "muss genau %{count} sein"
+      less_than: "muss kleiner als %{count} sein"
+      less_than_or_equal_to: "muss kleiner oder gleich %{count} sein"
+      odd: "muss ungerade sein"
+      even: "muss gerade sein"
+      not_an_integer: "muss ganzzahlig sein"
+
+  helpers:
+    select:
+      prompt: "Bitte wählen"
+
+    submit:
+      create: '%{model} erstellen'
+      update: '%{model} aktualisieren'
+      submit: '%{model} speichern'
+
+    link:
+      new: '%{model} erstellen'
 
   date:
     formats:

@@ -128,35 +128,36 @@ ul.event_list {
   background-color: #000;
 }
 
-#flash_notice, #flash_error {
+.flash_notice, .flash_error {
   padding: 5px 8px;
   margin: 10px 0;
 }
 
-#flash_notice {
+.flash_notice {
   background-color: #CFC;
   border: solid 1px #6C6;
 }
 
-#flash_error {
+.flash_error {
   background-color: #FCC;
   border: solid 1px #C66;
 }
 
-.fieldWithErrors {
+.field_with_errors {
   display: inline;
 }
 
-#errorExplanation {
+.error_explanation {
   width: 400px;
   border: 2px solid #CF0000;
   padding: 0px;
   padding-bottom: 12px;
   margin-bottom: 20px;
+  color: black;
   background-color: #f0f0f0;
 }
 
-#errorExplanation h2 {
+.error_explanation h2 {
   text-align: left;
   font-weight: bold;
   padding: 5px 5px 5px 15px;
@@ -166,17 +167,17 @@ ul.event_list {
   color: #fff;
 }
 
-#errorExplanation p {
+.error_explanation p {
   color: #202020;
   margin-bottom: 0;
   padding: 8px;
 }
 
-#errorExplanation ul {
+.error_explanation ul {
   margin: 2px 24px;
 }
 
-#errorExplanation ul li {
+.error_explanation ul li {
   font-size: 12px;
   list-style: disc;
 }

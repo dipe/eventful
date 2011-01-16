@@ -8,7 +8,9 @@ class Account < CouchModel::Base
     :delete_if_exists => false,
     :push_design => true
 
-  # has_many :events
+  validates_presence_of :application
+
+  #has_many :events
 
   key_accessor :application
 end
