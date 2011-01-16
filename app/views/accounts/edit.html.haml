@@ -1,0 +1,8 @@
+%h1= t(".heading")
+
+= render "form"
+
+%p
+  = link_to t("phrases.show_ellipse"), @account
+  |
+  = link_to t("phrases.back"), accounts_path

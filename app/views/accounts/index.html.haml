@@ -1,0 +1,21 @@
+%h1= t(".heading")
+
+%table
+  %tr
+    %th= Account.human_attribute_name(:application)
+    %th
+  - @accounts.each do |account|
+    %tr
+      %td
+        = account.application
+      %td
+        = link_to t('phrases.show'), account
+        |
+        = link_to t('phrases.edit'), edit_account_path(account)
+        |
+        = link_to t('phrases.destroy'), account, :confirm => t("phrases.are_you_sure"), :method => :delete
+        |
+        = link_to Event.model_name.human.pluralize, account_events_path(account)
+
+%p
+  = link_to t('helpers.link.new', :model => Account.model_name.human), new_account_path
