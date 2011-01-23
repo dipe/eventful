@@ -16,13 +16,18 @@ XML = <<EOT
 </soapenv:Envelope>
 EOT
 
+TestApiToken = '01234567890'
+
 class TestClientController < ApplicationController
 
   def throw
+    Account.find(ApiTestKey) rescue Account.create(:id => ApiTestKey, :application => 'Eventful-Test')
+
     begin
       raise RuntimeError.new('Bang!')
     rescue Exception => e
-      Eventful::Event.put(:request => request,
+      Eventful::Event.put(:api_token => TestApiToken,
+                          :request => request,
                           :exception => e,
                           :extra => {:key => 'SOAP', :value => XML, :type => :xml})
     end

@@ -1,5 +1,7 @@
 Eventful::Application.routes.draw do
 
+  post "events" => "events#create"
+  
   resources :accounts do
     resources :events do
       member do

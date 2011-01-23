@@ -1,9 +1,7 @@
 module Eventful
-
-  AccountID = 123456789890
   
   class Event < ActiveResource::Base
-    self.site = "http://0.0.0.0:3000/account/#{AccountID}"
+    self.site = "http://0.0.0.0:3000"
 
     # self.proxy = "http://user:password@proxy.people.com:8080"
 

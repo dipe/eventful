@@ -8,14 +8,18 @@ class Event < CouchModel::Base
     :delete_if_exists => false,
     :push_design => true
 
-  validates_presence_of :account
-  
-  delegate :application, :to => :account
-  
   before_save :set_default_values
+
+  # Account must be given - but for secutity reasons by explicit
+  # assignment only
+  include ActiveModel::MassAssignmentSecurity
+  attr_protected :account_id
+  validates_presence_of :account_id
 
   belongs_to :account, :class_name => "Account"
 
+  delegate :application, :to => :account
+  
   key_accessor :level
   key_accessor :title
   key_accessor :message
@@ -34,7 +38,7 @@ class Event < CouchModel::Base
   key_accessor :node
   key_accessor :pid
   key_accessor :created_at, :type => :time
-
+  
   def self.find(*args)
     case args.first
     when String
@@ -51,28 +55,26 @@ class Event < CouchModel::Base
   end
 
   def self.count(query, options = {})
-    find_by_view(query, options.merge(:returns => :rows, :group_level => 0)).first.value
+    res = find_by_view(query, options.merge(:returns => :rows, :group_level => 0))
+    return 0 if res.length == 0
+    res.first.value
   end
 
   def self.find_by_view(query, options = {})
     q = query.with_indifferent_access
     columns = columns_from(q)
       
-    if columns.empty?
-      Event.all(options)
-    else
-      method = view_method_from(columns)
-      startkey = q.values_at(*columns)
-      endkey = startkey + [{}]
+    method = view_method_from(columns)
+    startkey = q.values_at(*columns)
+    endkey = startkey + [{}]
       
-      if options[:descending]
-        e = endkey
-        endkey = startkey
-        startkey = e
-      end
+    if options[:descending]
+      e = endkey
+      endkey = startkey
+      startkey = e
+    end
       
-      Event.send(method, options.merge(:startkey => startkey, :endkey => endkey))
-    end    
+    Event.send(method, options.merge(:startkey => startkey, :endkey => endkey))
   end
   
   def self.view_method_from(columns)
@@ -80,7 +82,7 @@ class Event < CouchModel::Base
   end
 
   def self.columns_from(query)
-    %w(account controller action title node).select { |c| query.has_key? c }
+    %w(account_id controller action title node).select { |c| query.has_key? c }
   end
 
   def set_default_values

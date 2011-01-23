@@ -10,7 +10,15 @@ class Account < CouchModel::Base
 
   validates_presence_of :application
 
-  #has_many :events
-
   key_accessor :application
+
+  def api_key
+    id
+  end
+  
+  # Actually we (miss-) use the object-id as api-key. Maybe we would
+  # change this later because of security reasons.
+  def self.find_by_api_key(key)
+    find(key)
+  end
 end

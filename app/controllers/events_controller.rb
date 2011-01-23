@@ -1,9 +1,11 @@
 class EventsController < ApplicationController
 
-  before_filter :prepare_account
+  before_filter :provide_account, :except => 'create'
+  before_filter :authenticate_account_by_api_token, :only => 'create'
   
   def index
     @query = params[:query] || {}
+    @query[:account_id] = @account.id
     @page = params[:page] || 1
     @events = WillPaginate::Collection.create(@page, 200, Event.count(@query)) do |pager|
       events = Event.find(@query, :descending => true, :skip => pager.offset, :limit => pager.per_page).to_a
@@ -17,6 +19,7 @@ class EventsController < ApplicationController
   
   def create
     @event = Event.new(params[:event])
+    @event.account = @account
     if @event.save
       render :xml => @event, :status => :created, :location => account_event_path(@account, @event)
     else
@@ -36,8 +39,12 @@ class EventsController < ApplicationController
   end
 
   private
-
-  def prepare_account
-    @account = Account.find(params[:account_id])
+  
+  def authenticate_account_by_api_token
+    @account = Account.find_by_api_token(params.delete(:api_tokenx))
+  end
+  
+  def provide_account
+    @account = Account.find(params[:account_id]) if params[:account_id]
   end
 end
