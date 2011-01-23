@@ -38,7 +38,7 @@ class Event < CouchModel::Base
   key_accessor :node
   key_accessor :pid
   key_accessor :created_at, :type => :time
-  
+
   def self.find(*args)
     case args.first
     when String
@@ -63,26 +63,30 @@ class Event < CouchModel::Base
   def self.find_by_view(query, options = {})
     q = query.with_indifferent_access
     columns = columns_from(q)
+ 
+    if columns.empty?
+      all(options)
+    else
+      method = view_method_from(columns)
+      startkey = q.values_at(*columns)
+      endkey = startkey + [{}]
       
-    method = view_method_from(columns)
-    startkey = q.values_at(*columns)
-    endkey = startkey + [{}]
+      if options[:descending]
+        e = endkey
+        endkey = startkey
+        startkey = e
+      end
       
-    if options[:descending]
-      e = endkey
-      endkey = startkey
-      startkey = e
+      Event.send(method, options.merge(:startkey => startkey, :endkey => endkey))
     end
-      
-    Event.send(method, options.merge(:startkey => startkey, :endkey => endkey))
   end
-  
+
   def self.view_method_from(columns)
     "by_" + columns.join('_and_')
   end
 
   def self.columns_from(query)
-    %w(account_id controller action title node).select { |c| query.has_key? c }
+    %w(account_id controller action title).select { |c| query.has_key? c }
   end
 
   def set_default_values
@@ -95,5 +99,21 @@ class Event < CouchModel::Base
 
   def level
     attributes['level'] || 1
+  end
+
+  def find_all_like_this
+    find(all_like_this_query)
+  end
+
+  def count_all_like_this
+    count(all_like_this_query)
+  end
+
+  def all_like_this_query
+    { :account_id => account_id,
+      :controller => controller,
+      :action => action,
+      :title => title
+    }
   end
 end

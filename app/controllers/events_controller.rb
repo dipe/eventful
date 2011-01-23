@@ -41,7 +41,7 @@ class EventsController < ApplicationController
   private
   
   def authenticate_account_by_api_token
-    @account = Account.find_by_api_token(params.delete(:api_tokenx))
+    @account = Account.find_by_api_token(params.delete(:api_token))
   end
   
   def provide_account
