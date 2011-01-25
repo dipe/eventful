@@ -54,6 +54,17 @@ class Event < CouchModel::Base
     end
   end
 
+  def self.find_distinct_cons(*args)
+    res = []
+    last = nil
+    self.find(*args).each do |e|
+      next if e.like last
+      res.push(e)
+      last = e
+    end
+    res
+  end
+  
   def self.count(query, options = {})
     res = find_by_view(query, options.merge(:returns => :rows, :group_level => 0))
     return 0 if res.length == 0
@@ -93,6 +104,13 @@ class Event < CouchModel::Base
     self.created_at ||= Time.now
   end
 
+  def like(other)
+    other.controller == controller &&
+      other.action == action &&
+      other.title == title
+  rescue NoMethodError
+  end
+  
   def level_name
     I18n.t("display_values.event.level.#{level}")
   end
@@ -102,11 +120,11 @@ class Event < CouchModel::Base
   end
 
   def find_all_like_this
-    find(all_like_this_query)
+    self.class.find(all_like_this_query)
   end
 
   def count_all_like_this
-    count(all_like_this_query)
+    self.class.count(all_like_this_query)
   end
 
   def all_like_this_query

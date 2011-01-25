@@ -14,6 +14,8 @@
         %li{:class => cycle("even", "odd", :name => "row_class")}
           %span{:class => "time"}><
             = l event.created_at, :format => :time
+          %span{:class => "count"}><
+            = event.count_all_like_this
           %span{:class => "level#{event.level}"}><
             = event.level_name
           %span{:class => "application"}><

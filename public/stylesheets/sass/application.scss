@@ -10,16 +10,16 @@ h1, h2, h3 {
   color: #C43E0A;
 }
 
-h1 .count, h2 .count, h3 .count {
+.count {
   font-size: 70%;
   font-weight: normal;  
 }
 
-h1 .count:before, h2 .count:before, h3 .count:before {
+.count:before {
   content: "(";
 }
 
-h1 .count:after, h2 .count:after, h3 .count:after {
+.count:after {
   content: ")";
 }
 
@@ -58,6 +58,10 @@ ul.event_list {
 .event_list li {
   padding: 5px 5px;
   color: #BBB;
+}
+
+.event_list .count {
+  padding-right: 10px;
 }
 
 .event_list .time {
