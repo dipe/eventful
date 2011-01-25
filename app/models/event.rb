@@ -82,7 +82,7 @@ class Event < CouchModel::Base
   end
 
   def self.view_method_from(columns)
-    "by_" + columns.join('_and_')
+    "find_by_" + columns.join('_and_')
   end
 
   def self.columns_from(query)

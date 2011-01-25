@@ -1,6 +1,6 @@
 language: "javascript"
 views: {
-  by_account_id: {
+  find_by_account_id: {
     map: "function(document) {
       if (document['model_class'] == 'Event') {
         emit([document.account_id, document.created_at], null);
@@ -14,7 +14,7 @@ views: {
       }
     }"
   },
-  by_account_id_and_controller_and_action_and_title: {
+  find_by_account_id_and_controller_and_action_and_title: {
     map: "function(document) {
       if (document['model_class'] == 'Event') {
         emit([document.account_id, document.controller, document.action, document.title, document.created_at], null);
