@@ -14,10 +14,10 @@ views: {
       }
     }"
   },
-  find_by_account_id_and_controller_and_action_and_title: {
+  find_by_account_id_and_controller_and_action_and_title_and_level: {
     map: "function(document) {
       if (document['model_class'] == 'Event') {
-        emit([document.account_id, document.controller, document.action, document.title, document.created_at], null);
+        emit([document.account_id, document.controller, document.action, document.title, document.level, document.created_at], null);
       }
     }",
     reduce: "function(key, values, rereduce) {
