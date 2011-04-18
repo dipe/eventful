@@ -24,3 +24,11 @@ Eventful::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
 end
 
+CouchModel::Configuration.design_directory = File.join(Rails.root, "app", "models", "designs")
+CouchModelDatabase = {
+  :url => "http://localhost:5984/eventful-developement",
+  :create_if_missing => true,
+  :delete_if_exists => false,
+  :push_design => true
+}
+

@@ -8,13 +8,14 @@ class EventsController < ApplicationController
     @query[:account_id] = @account.id
     @page = params[:page] || 1
     @events = WillPaginate::Collection.create(@page, 200, Event.count(@query)) do |pager|
-      events = Event.find_distinct_cons(@query, :descending => true, :skip => pager.offset, :limit => pager.per_page).to_a
+      events = Event.find_matching_cons(@query, :descending => true, :skip => pager.offset, :limit => pager.per_page).to_a
       pager.replace(events)
     end
   end
 
   def show
     @event = Event.find(params[:id])
+    @history = @event.find_all_like_this
   end
   
   def create

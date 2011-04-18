@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
 class Event < CouchModel::Base
 
-  # FIXME: should be moved into environment/….rb
-  CouchModel::Configuration.design_directory = File.join(Rails.root, "app", "models", "designs")
-  setup_database :url => "http://localhost:5984/eventful-#{Rails.env}",
-    :create_if_missing => true,
-    :delete_if_exists => false,
-    :push_design => true
+  setup_database ::CouchModelDatabase
 
   before_save :set_default_values
 
@@ -14,6 +9,7 @@ class Event < CouchModel::Base
   # assignment only
   include ActiveModel::MassAssignmentSecurity
   attr_protected :account_id
+
   validates_presence_of :account_id
 
   belongs_to :account, :class_name => "Account"
@@ -54,7 +50,7 @@ class Event < CouchModel::Base
     end
   end
 
-  def self.find_distinct_cons(*args)
+  def self.find_matching_cons(*args)
     res = []
     last = nil
     self.find(*args).each do |e|
@@ -105,9 +101,10 @@ class Event < CouchModel::Base
   end
 
   def like(other)
-    other.controller == controller &&
-      other.action == action &&
-      other.title == title
+    controller == other.controller &&
+        action == other.action &&
+         title == other.title &&
+         level == other.level
   rescue NoMethodError
   end
   
@@ -131,7 +128,8 @@ class Event < CouchModel::Base
     { :account_id => account_id,
       :controller => controller,
       :action => action,
-      :title => title
+      :title => title,
+      :level => level
     }
   end
 end
