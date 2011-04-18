@@ -20,9 +20,11 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(params[:event])
     @event.account = @account
+
     if @event.save
       render :xml => @event, :status => :created, :location => account_event_path(@account, @event)
     else
+      logger.info "Create event failed: #{@event.errors.full_messages.join(' - ')}"
       render :xml => @event.errors, :status => :unprocessable_entity
     end
   end
@@ -41,7 +43,8 @@ class EventsController < ApplicationController
   private
   
   def authenticate_account_by_api_token
-    @account = Account.find_by_api_token(params.delete(:api_token))
+    # FIXME: api_token separat?
+    @account = Account.find_by_api_token(params[:event][:api_token])
   end
   
   def provide_account

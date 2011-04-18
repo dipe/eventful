@@ -1,7 +1,45 @@
 $:.unshift File.expand_path('../../../contrib', __FILE__)
 require 'eventful_event'
 
-XML = <<EOT
+ApiTestToken = '01234567890'
+
+class TestClientController < ApplicationController
+
+  def throw
+    Account.find(ApiTestToken) rescue Account.create(:id => ApiTestToken, :application => 'Eventful-Test')
+
+    params[:times].to_i.times do
+      request.params[:controller] = random_element_of(TestExample::Controllers)
+      request.params[:action] = random_element_of(TestExample::Actions)
+      exception = random_element_of(TestExample::Exceptions)
+      data = random_element_of(TestExample::XmlDatas)
+      extra_data = {:key => 'SOAP', :value => data, :type => :xml} if data.present?
+      
+      begin
+        raise exception
+      rescue Exception => e
+        # Fixme: :api_token => ApiTestToken als Klassenmethode
+        Eventful::Event.fire(:api_token => ApiTestToken,
+                             :exception => e,
+                             :request => request,
+                             :extra => extra_data
+                             )
+      end
+    end
+    
+    redirect_to test_path
+  end
+
+  private
+
+  def random_element_of(array)
+    r = rand(array.size)
+    array[r]
+  end
+end
+
+module TestExample
+  XmlDatas = [nil, <<EOT]
 <?xml version="1.0" encoding="UTF-8"?>
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
   <soapenv:Body>
@@ -16,21 +54,13 @@ XML = <<EOT
 </soapenv:Envelope>
 EOT
 
-TestApiToken = '01234567890'
+  Exceptions = [RuntimeError.new("test syntax error, unexpected kEND, expecting $end"),
+                ArgumentError.new("wrong number of test arguments (0 for 1)"),
+                NoMethodError.new("undefined method `test_method' for main:Object"),
+                NameError.new("undefined local variable or method `test_name' for main:Object")
+               ]
 
-class TestClientController < ApplicationController
+  Controllers = %w(TestSessionController TestUserController TestBillController)
 
-  def throw
-    Account.find(ApiTestKey) rescue Account.create(:id => ApiTestKey, :application => 'Eventful-Test')
-
-    begin
-      raise RuntimeError.new('Bang!')
-    rescue Exception => e
-      Eventful::Event.put(:api_token => TestApiToken,
-                          :request => request,
-                          :exception => e,
-                          :extra => {:key => 'SOAP', :value => XML, :type => :xml})
-    end
-    redirect_to test_path
-  end
+  Actions = %w(test_index test_show test_edit test_create test_delete)
 end

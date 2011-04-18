@@ -16,9 +16,9 @@ class Account < CouchModel::Base
     id
   end
   
-  # Actually we (miss-) use the object-id as api-key. Maybe we would
+  # Actually we (miss-) use the object-id as api-token. Shure we would
   # change this later because of security reasons.
-  def self.find_by_api_key(key)
-    find(key)
+  def self.find_by_api_token(token)
+    find(token)
   end
 end
