@@ -93,8 +93,9 @@ ul.event_history {
 
 }
 
-.event_history li.actual {
-  color: green;
+.event_history li.actual:before {
+  content: "▶";
+  margin-left: -11px;
 }
 
 // Alarm

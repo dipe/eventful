@@ -23,6 +23,7 @@
 
     %ul.event_history
       - events_per_day.each do |event|
-        %li{:class => @event.like(event) ? 'actual' : nil}
+        = # %li{:class => @event.like(event) ? 'actual' : nil}
+        %li{:class => @event.title == event.title ? 'actual' : nil}
           %span.time><
             = l event.created_at, :format => :time
