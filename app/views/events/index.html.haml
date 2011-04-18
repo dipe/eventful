@@ -7,27 +7,26 @@
   .content
     %h3<
       = date
-      %span{:class => "count"}<
+      %span.count<
         = events_per_day.length
-    %ul{:class => "event_list"}
+    %table.event_list
       - events_per_day.each do |event|
-        %li{:class => cycle("even", "odd", :name => "row_class")}
-          %span{:class => "time"}><
+        %tr{:class => cycle("even", "odd", :name => "row_class")}
+          %td.time><
             = l event.created_at, :format => :time
-          %span{:class => "count"}><
+          %td.count><
             = event.count_all_like_this
-          %span{:class => "level#{event.level}"}><
-            = event.level_name
-          %span{:class => "application"}><
-            = event.application
-          %span{:class => "node"}><
+          %td.node><
             = event.node
-          %span{:class => "controller"}><
+          %td.controller><
             = event.controller
-          %span{:class => "action"}><
+          %td.action><
             = event.action
-          %span{:class => "title"}><
+          %td.title{:class => "level#{event.level}"}><
             = truncate(event.title)
-          = link_to t('phrases.show_ellipse'), account_event_path(@account, event)
+          %td.message><
+            = truncate(event.message, :length => 80)
+          %td
+            = link_to t('phrases.show_ellipse'), account_event_path(@account, event)
 
 %p= will_paginate @events

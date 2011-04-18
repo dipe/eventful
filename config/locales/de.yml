@@ -48,7 +48,7 @@ de:
         node: Rechner
         request_url: Request-URL
         request_params: Request-Parameter
-        request_data: Request-Daten
+        request_env: Request-Daten
         session_data: Session-Daten
         level: Dringlichkeit
       account:

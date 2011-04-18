@@ -1,9 +1,11 @@
 .content
-  %p=  l @event.created_at
+  %p
+    = l @event.created_at
+    = link_to I18n.t('phrases.back'), :back
 
-  %h2= "#{@event.title} (#{@event.level_name})"
+  %h2{:class => "level#{@event.level}"}= "#{@event.title} (#{@event.level_name})"
 
-  %p= @event.message
+  %code.message= @event.message
 
   - [:application, :controller, :action, :request_url, :session_id, :node, :pid, :backtrace].each do |name|
     - if value = @event.send(name)
@@ -13,4 +15,6 @@
     - @event.additional_data.each do |item|
       - @key = item['key']
       = render :partial => 'hide_additional_data_item'
-  %p= link_to I18n.t('phrases.back'), :back
+
+  - @history.each do |event|
+    %p= event.time

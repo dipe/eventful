@@ -1,17 +1,28 @@
 body {
   color: #fff;
   margin: 30px 30px;
-  background-color: #181818;
+  background-color: #190901;
   font-family: Sans;
   font-size: 14px;
 }
 
 h1, h2, h3 {
-  color: #C43E0A;
+  color: #cf450a;
+}
+
+code.message {
+  font-size: 16px;
+  font-family: monospace;
+  margin-left: -4px;
+  padding: 4px;
+  color: white;
+  border-top: solid 1px #cf450a;
+  border-bottom: solid 1px #cf450a;
+  background-color: #190901;
 }
 
 .count {
-  font-size: 70%;
+  font-size: 80%;
   font-weight: normal;  
 }
 
@@ -32,11 +43,15 @@ h1, h2, h3 {
 }
 
 a {
-  color: #FFAF33;
+  color: #cf450a;
 }
 
 a:visited {
-  color: #F57340;
+  color: #cf450a;
+}
+
+.event_list a:visited {
+  color: #7a2906;
 }
 
 .content {
@@ -50,85 +65,113 @@ a:visited {
   font-weight: bold;
 }
 
-ul.event_list {
-  list-style-type: none;
-  padding: 0;
+table.event_list {
+  margin-bottom: 20px;
+  border-collapse: collapse;
 }
 
-.event_list li {
-  padding: 5px 5px;
-  color: #BBB;
+.event_list td {
+  border: none;
+  padding: 7px 5px;
 }
 
 .event_list .count {
-  padding-right: 10px;
+  text-align: right;
 }
 
 .event_list .time {
-  padding-right: 10px;
   font-weight: bold;
+  padding-right: 0px;
 }
 
-.event_list .level0 {
-  padding-right: 10px;
+// Alarm
+.level0 {
   color: red;
 }
 
-.event_list .level1 {
-  padding-right: 10px;
+// Fehler
+.level1 {
   color: orange;
 }
 
-.event_list .level2 {
-  padding-right: 10px;
+// Warnung
+.level2 {
   color: yellow;
 }
 
-.event_list .level3 {
-  padding-right: 10px;
+// Info
+.level3 {
+  color: green;
 }
 
-.event_list .level5 {
-  padding-right: 10px;
-  color: blue;
+// Diagnose
+.level4 {
+  color: white;
 }
 
 .event_list .application {
+  padding-right: 0px;
+}
+
+.event_list .node {
+  padding-left: 0px;
 }
 
 .event_list .node:before {
   content: "@";
-}
-
-.event_list .node {
-  padding-right: 10px;
+  padding-left: 2px;
+  padding-right: 2px;
+  color: #AAA;
 }
 
 .event_list .controller {
+  text-align: right;
+  padding-right: 0px;
+  font-weight: bold;
 }
 
-.event_list .action:before {
+.event_list .controller:after {
   content: "#";
+  padding-left: 2px;
+  padding-right: 2px;
+  color: #AAA;
 }
 
 .event_list .action {
-  padding-right: 10px;
+  padding-left: 0px;
+  font-weight: bold;
 }
 
 .event_list .title {
-  padding-right: 10px;
+  text-align: right;
+  padding-right: 0px;
+  font-weight: bold;
+}
+
+.event_list .title:after {
+  content: ":";
+  padding-left: 2px;
+  padding-right: 2px;
+  color: #AAA;
 }
 
 .event_list .message {
-  padding-right: 10px;
-  font-style: italic;
+  padding-left: 0px;
+  font-family: monospace;
 }
 
-.even {
-  background-color: #202020;
+// FIXME: geht nicht. Warum?
+.event_list tr:first td {
+  border-top: solid 1px #cf450a;
 }
 
-.odd {
+.even td {
+  border-bottom: solid 1px #cf450a;
+  background-color: #190901;
+}
+
+.odd td {
+  border-bottom: solid 1px #cf450a;
   background-color: #000;
 }
 
@@ -172,7 +215,7 @@ ul.event_list {
 }
 
 .error_explanation p {
-  color: #202020;
+  color: #190901;
   margin-bottom: 0;
   padding: 8px;
 }
