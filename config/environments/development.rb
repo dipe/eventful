@@ -26,7 +26,7 @@ end
 
 CouchModel::Configuration.design_directory = File.join(Rails.root, "app", "models", "designs")
 CouchModelDatabase = {
-  :url => "http://localhost:5984/eventful-developement",
+  :url => "http://localhost:5984/eventful-development",
   :create_if_missing => true,
   :delete_if_exists => false,
   :push_design => true

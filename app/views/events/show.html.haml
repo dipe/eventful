@@ -4,9 +4,7 @@
     = link_to I18n.t('phrases.back'), :back
 
   %h2{:class => "level#{@event.level}"}= "#{@event.title} (#{@event.level_name})"
-
   %code.message= @event.message
-
   - [:application, :controller, :action, :request_url, :session_id, :node, :pid, :backtrace].each do |name|
     - if value = @event.send(name)
       = attribute_detail(name, value.to_s)
@@ -16,5 +14,15 @@
       - @key = item['key']
       = render :partial => 'hide_additional_data_item'
 
-  - @history.each do |event|
-    %p= event.time
+  %h3 Historie
+  - @history.group_by { |e| l(e.created_at, :format => :iso_date) }.each do |date, events_per_day|
+    %h4<
+      = date
+      %span.count<
+        = events_per_day.length
+
+    %ul.event_history
+      - events_per_day.each do |event|
+        %li{:class => @event.like(event) ? 'actual' : nil}
+          %span.time><
+            = l event.created_at, :format => :time

@@ -15,7 +15,7 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id])
-    @history = @event.find_all_like_this
+    @history = @event.find_all_like_this.to_a
   end
   
   def create

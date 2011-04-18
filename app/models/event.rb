@@ -83,8 +83,8 @@ class Event < CouchModel::Base
         endkey = startkey
         startkey = e
       end
-      
-      Event.send(method, options.merge(:startkey => startkey, :endkey => endkey))
+#      Event.send(method, options.merge(:startkey => startkey, :endkey => endkey))
+      Event.send(method, options.merge(:startkey => startkey))
     end
   end
 
@@ -93,9 +93,9 @@ class Event < CouchModel::Base
   end
 
   def self.columns_from(query)
-    %w(account_id controller action title).select { |c| query.has_key? c }
+    %w(account_id controller action title level).select { |c| query.has_key? c }
   end
-
+  
   def set_default_values
     self.created_at ||= Time.now
   end

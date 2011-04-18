@@ -10,6 +10,10 @@ h1, h2, h3 {
   color: #cf450a;
 }
 
+h4 {
+   margin-bottom: 0px;
+}
+
 code.message {
   font-size: 16px;
   font-family: monospace;
@@ -43,15 +47,11 @@ code.message {
 }
 
 a {
-  color: #cf450a;
+  color: #32cf0a;
 }
 
 a:visited {
-  color: #cf450a;
-}
-
-.event_list a:visited {
-  color: #7a2906;
+  color: #1f8207;
 }
 
 .content {
@@ -82,6 +82,19 @@ table.event_list {
 .event_list .time {
   font-weight: bold;
   padding-right: 0px;
+}
+
+ul.event_history {
+  list-style-type: none;
+  padding-left: 10px;
+}
+
+.event_history li {
+
+}
+
+.event_history li.actual {
+  color: green;
 }
 
 // Alarm
