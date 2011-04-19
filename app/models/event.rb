@@ -93,7 +93,7 @@ class Event < CouchModel::Base
   end
 
   def self.columns_from(query)
-    %w(account_id controller action title level).select { |c| query.has_key? c }
+    %w(account_id session_id controller action title level).select { |c| query.has_key? c }
   end
   
   def set_default_values

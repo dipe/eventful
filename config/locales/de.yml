@@ -94,6 +94,11 @@ de:
     link:
       new: '%{model} erstellen'
 
+    label:
+      event:
+        controller_action: "Controller und Aktion"
+        pid_node: "PID auf Rechner"
+
   date:
     formats:
       default: "%d.%m.%Y"

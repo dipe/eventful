@@ -27,5 +27,19 @@ views: {
         return values.length;
       }
     }"
+  },
+  find_by_account_id_and_session_id: {
+    map: "function(document) {
+      if (document['model_class'] == 'Event') {
+        emit([document.account_id, document.session_id, document.created_at], null);
+      }
+    }",
+    reduce: "function(key, values, rereduce) {
+      if (rereduce) {
+        return sum(values);
+      } else {
+        return values.length;
+      }
+    }"
   }
 }

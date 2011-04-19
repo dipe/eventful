@@ -5,10 +5,11 @@
 
   %h2{:class => "level#{@event.level}"}= "#{@event.title} (#{@event.level_name})"
   %code.message= @event.message
-  - [:application, :controller, :action, :request_url, :session_id, :node, :pid, :backtrace].each do |name|
-    - if value = @event.send(name)
-      = attribute_detail(name, value.to_s)
-  
+  = attribute_detail(:controller_action, "#{@event.controller}##{@event.action}")
+  = attribute_detail(:request_url, @event.request_url)
+  = attribute_detail(:session_id, link_to(@event.session_id, events_path(:session_id => @event.session_id)))
+  = attribute_detail(:pid_node, "#{@event.pid}@#{@event.node}")
+
   - if @event.additional_data
     - @event.additional_data.each do |item|
       - @key = item['key']

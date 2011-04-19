@@ -1,8 +1,9 @@
 module EventsHelper
 
   def attribute_detail(name, value)
+    text = I18n.t("helpers.label.event.#{name}", :default => '').presence || Event.human_attribute_name(name)
     label = content_tag(:span, :class => "label") do
-      Event.human_attribute_name(name) + ':'
+       text + ':'
     end
     content_tag(:p, :id => name) do
       label + " " + value
