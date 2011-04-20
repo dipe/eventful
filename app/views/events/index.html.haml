@@ -1,32 +1,35 @@
-%h1= @account.application
-%h2= @query
+.content
+  .event_list
+    %h1= link_to(@account.application, account_events_path(@account))
+    %h2= @query
 
-%p= will_paginate @events
+    %p= will_paginate @events
 
-- @events.group_by { |e| l(e.created_at, :format => :iso_date) }.each do |date, events_per_day|
-  .content
-    %h3<
-      = date
-      %span.count<
-        = events_per_day.length
-    %table.event_list
-      - events_per_day.each do |event|
-        %tr{:class => cycle("even", "odd", :name => "row_class")}
-          %td.time><
-            = l event.created_at, :format => :time
-          %td.count><
-            = event.count_all_like_this
-          %td.node><
-            = event.node
-          %td.controller><
-            = event.controller
-          %td.action><
-            = event.action
-          %td.title{:class => "level#{event.level}"}><
-            = truncate(event.title)
-          %td.message><
-            = truncate(event.message, :length => 80)
-          %td
-            = link_to t('phrases.show_ellipse'), account_event_path(@account, event)
+    %table
+      - @events.group_by { |e| l(e.created_at, :format => :day_iso_date) }.each do |date, events_per_day|
+        %tr
+          %th{:colspan => 8}
+            %h4<
+              = date
+              %span.count<
+                = events_per_day.length
+        - events_per_day.each do |event|
+          %tr{:class => cycle("even", "odd", :name => "row_class")}
+            %td.time><
+              = l event.created_at, :format => :time
+            %td.count><
+              = event.count_all_like_this
+            %td.node><
+              = event.node
+            %td.controller><
+              = event.controller
+            %td.action><
+              = event.action
+            %td.title{:class => "level#{event.level}"}><
+              = "#{truncate(event.title)} (#{event.level_name})"
+            %td.message><
+              = truncate(event.message, :length => 80)
+            %td
+              = link_to t('phrases.show_ellipse'), account_event_path(@account, event)
 
-%p= will_paginate @events
+    %p= will_paginate @events

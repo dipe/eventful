@@ -6,7 +6,7 @@ body {
   font-size: 14px;
 }
 
-h1, h2, h3 {
+h1, h2, h3, h4 {
   color: #cf450a;
 }
 
@@ -20,8 +20,8 @@ code.message {
   margin-left: -4px;
   padding: 4px;
   color: white;
-  border-top: solid 1px #cf450a;
-  border-bottom: solid 1px #cf450a;
+  border-top: solid 1px #333;
+  border-bottom: solid 1px #333;
   background-color: #190901;
 }
 
@@ -65,14 +65,33 @@ a:visited {
   font-weight: bold;
 }
 
-table.event_list {
-  margin-bottom: 20px;
+.event_list h4 {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.event_list table {
+  margin-bottom: 16px;
   border-collapse: collapse;
+  border-bottom: solid 1px #333;
+}
+
+.event_list tr {
+  border-top: solid 1px #333;
+}
+
+.event_list th {
+  text-align: left;
+  padding-left: 5px;
+}
+
+.event_list tr:first {
+  border-top: none;
 }
 
 .event_list td {
   border: none;
-  padding: 7px 5px;
+  padding: 3px 5px;
 }
 
 .event_list .count {
@@ -80,47 +99,7 @@ table.event_list {
 }
 
 .event_list .time {
-  font-weight: bold;
   padding-right: 0px;
-}
-
-ul.event_history {
-  list-style-type: none;
-  padding-left: 10px;
-}
-
-.event_history li {
-
-}
-
-.event_history li.actual:before {
-  content: "▶";
-  margin-left: -11px;
-}
-
-// Alarm
-.level0 {
-  color: red;
-}
-
-// Fehler
-.level1 {
-  color: orange;
-}
-
-// Warnung
-.level2 {
-  color: yellow;
-}
-
-// Info
-.level3 {
-  color: green;
-}
-
-// Diagnose
-.level4 {
-  color: white;
 }
 
 .event_list .application {
@@ -174,19 +153,63 @@ ul.event_history {
   font-family: monospace;
 }
 
-// FIXME: geht nicht. Warum?
-.event_list tr:first td {
-  border-top: solid 1px #cf450a;
-}
-
 .even td {
-  border-bottom: solid 1px #cf450a;
   background-color: #190901;
 }
 
 .odd td {
-  border-bottom: solid 1px #cf450a;
-  background-color: #000;
+  background-color: #190901;
+}
+
+.event_history h4 {
+  padding-left: 15px;
+  margin-top: 5px;
+}
+
+.event_history ul {
+  list-style-type: none;
+  padding-left: 0px;
+  margin-top: 5px;
+  margin-left: 10px;
+  border-bottom: solid 1px #333;
+  background-color: #190901;
+}
+
+.event_history li {
+  padding: 3px 5px;
+  margin: 0px;
+  border-top: solid 1px #333;
+}
+
+.event_history li.actual:before {
+  content: "▶";
+  margin-left: -20px;
+  padding-right: 9px;
+}
+
+// Alarm
+.level0 {
+  color: red;
+}
+
+// Fehler
+.level1 {
+  color: orange;
+}
+
+// Warnung
+.level2 {
+  color: yellow;
+}
+
+// Info
+.level3 {
+  color: green;
+}
+
+// Diagnose
+.level4 {
+  color: #AAA;
 }
 
 .flash_notice, .flash_error {

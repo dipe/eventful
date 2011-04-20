@@ -7,7 +7,7 @@
   %code.message= @event.message
   = attribute_detail(:controller_action, "#{@event.controller}##{@event.action}")
   = attribute_detail(:request_url, @event.request_url)
-  = attribute_detail(:session_id, link_to(@event.session_id, events_path(:session_id => @event.session_id)))
+  = attribute_detail(:session_id, link_to(@event.session_id, account_events_path(@account, "query[session_id]" => @event.session_id)))
   = attribute_detail(:pid_node, "#{@event.pid}@#{@event.node}")
 
   - if @event.additional_data
@@ -15,16 +15,17 @@
       - @key = item['key']
       = render :partial => 'hide_additional_data_item'
 
-  %h3 Historie
-  - @history.group_by { |e| l(e.created_at, :format => :iso_date) }.each do |date, events_per_day|
-    %h4<
-      = date
-      %span.count<
-        = events_per_day.length
+  .event_history 
+    %h3 Historie
+    - @history.group_by { |e| l(e.created_at, :format => :day_iso_date) }.each do |date, events_per_day|
+      %h4<
+        = date
+        %span.count<
+          = events_per_day.length
 
-    %ul.event_history
-      - events_per_day.each do |event|
-        = # %li{:class => @event.like(event) ? 'actual' : nil}
-        %li{:class => @event.title == event.title ? 'actual' : nil}
-          %span.time><
-            = l event.created_at, :format => :time
+      %ul
+        - events_per_day.each do |event|
+          = # %li{:class => @event.like(event) ? 'actual' : nil}
+          %li{:class => @event == event ? 'actual' : nil}
+            %span.time><
+              = l event.created_at, :format => :time

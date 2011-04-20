@@ -69,13 +69,13 @@ class Event < CouchModel::Base
 
   def self.find_by_view(query, options = {})
     q = query.with_indifferent_access
-    columns = columns_from(q)
+    query_columns = columns_from_query(q)
  
-    if columns.empty?
+    if query_columns.empty?
       all(options)
     else
-      method = view_method_from(columns)
-      startkey = q.values_at(*columns)
+      method = view_method_from(query_columns)
+      startkey = q.values_at(*query_columns)
       endkey = startkey + [{}]
       
       if options[:descending]
@@ -83,21 +83,21 @@ class Event < CouchModel::Base
         endkey = startkey
         startkey = e
       end
-#      Event.send(method, options.merge(:startkey => startkey, :endkey => endkey))
-      Event.send(method, options.merge(:startkey => startkey))
+      Event.send(method, options.merge(:startkey => startkey, :endkey => endkey))
     end
   end
 
-  def self.view_method_from(columns)
-    "find_by_" + columns.join('_and_')
+  def self.view_method_from(query_columns)
+    "find_by_" + query_columns.join('_and_')
   end
 
-  def self.columns_from(query)
+  def self.columns_from_query(query)
     %w(account_id session_id controller action title level).select { |c| query.has_key? c }
   end
   
   def set_default_values
     self.created_at ||= Time.now
+    self.level ||= 1
   end
 
   def like(other)
@@ -112,16 +112,12 @@ class Event < CouchModel::Base
     I18n.t("display_values.event.level.#{level}")
   end
 
-  def level
-    attributes['level'] || 1
+  def find_all_like_this(options = {})
+    self.class.find(all_like_this_query.merge((options)))
   end
 
-  def find_all_like_this
-    self.class.find(all_like_this_query)
-  end
-
-  def count_all_like_this
-    self.class.count(all_like_this_query)
+  def count_all_like_this(options = {})
+    self.class.count(all_like_this_query.merge((options)))
   end
 
   def all_like_this_query

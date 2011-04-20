@@ -117,11 +117,12 @@ de:
  
   time:
     formats:
-      default: "%A, %d. %B %Y, %H:%M Uhr"
+      default: "%A, %d. %B %Y, %H:%M:%S Uhr"
       short: "%d. %B, %H:%M Uhr"
       long: "%A, %d. %B %Y, %H:%M Uhr"
-      time: "%H:%M"
+      time: "%H:%M:%S"
       iso_date: "%Y-%m-%d"
+      day_iso_date: "%a. %Y-%m-%d"
 
     am: "vormittags"
     pm: "nachmittags"
