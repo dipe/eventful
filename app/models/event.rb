@@ -128,4 +128,8 @@ class Event < CouchModel::Base
       :level => level
     }
   end
+
+  def api_token=(val)
+    self.account = Account.find_by_api_token(val)
+  end
 end
