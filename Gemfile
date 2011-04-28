@@ -6,6 +6,7 @@ gem 'jquery-rails'
 gem 'coderay'
 gem 'haml'
 gem 'will_paginate'
+gem 'highline'
 
 if RUBY_PLATFORM =~ /java/
   gem "json-jruby"
