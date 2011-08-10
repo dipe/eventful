@@ -1,18 +1,35 @@
 # -*- coding: utf-8 -*-
+# EventfulEvent::Base
 
-# TODO:
-# - Port auf Net::Http
-# - Modularisieren: Base und Rails
-# - Protokoll: xml oder json? (was ist mit Binärdaten)
-#
-module Eventful
-  class Event < ActiveResource::Base
+require 'uri'
+require 'net/http'
+require 'singleton'
 
-    # self.proxy = "http://user:password@proxy.people.com:8080"
-    self.site = "http://0.0.0.0:3000"
+# FIXME: api_token= als Klassenmethode
+# FIXME: eventful_uri= als Klassenmethode
 
-    # Timemout
-    self.timeout = 3 # seconds
+module EventfulEvent
+  class Base
+
+    include Singleton
+
+    # FIXME: host URI
+    
+    attr_accessor(:api_token,
+                  :level,
+                  :node,
+                  :pid,
+                  :title,
+                  :message,
+                  :request_host,
+                  :request_url,
+                  :request_ip,
+                  :action,
+                  :controller,
+                  :session_id,
+                  :additional_data,
+                  :created_at
+                  )
 
     # Eventful::Event.fire is a shortcut method to fire a new exception
     # event. It's accept a hash with the following parameters:
@@ -41,29 +58,25 @@ module Eventful
     #  end
     #
     def self.fire(params)
-      begin
-        event = new
-        event.node = `hostname -s`.chomp
-        event.pid = $$
-        event.additional_data = []
-
+        instance.node = `hostname -s`.chomp
+        instance.pid = $$
+        instance.additional_data = []
         params.each_pair do |name, value|
-          event.send("#{name}=", value)
+          instance.send("#{name}=", value)
         end
-      
-        event.save
-      rescue ActiveResource::TimeoutError
-        Rails.logger.error('Eventful::Event: Timeout Error ignored')
-        -1
-      rescue Errno::ECONNREFUSED
-        Rails.logger.error('Eventful::Event: Connection Error ignored')
-        -1
+
+        instance.fire
+    end
+
+    def fire
+      begin
+        post :header => {"Accept" => "application/json", "Content-Type" => "application/json"},
+             :body => as_json
       rescue Exception => e
-        Rails.logger.error("Eventful::Event: #{e.inspect} ignored.\n#{e.backtrace.join("\n")}")
+        Rails.logger.error("Can't send Eventful Event: #{e.inspect} (ignored)")
+        false
       else
-        unless event.valid?
-          Rails.logger("Eventful::Event: Error: #{event.errors.full_messages.join(' - ')}")
-        end
+        analyse_response
       end
     end
 
@@ -97,6 +110,48 @@ module Eventful
 
     def extract_env_from_request(request)
       request.env.slice(*request.env.keys.grep(/[A-Z]/))
+    end
+
+  private
+
+    def as_json
+      { :event => {
+          :api_token => api_token,
+          :created_at => created_at,
+          :level => level,
+          :node => node,
+          :pid => pid,
+          :title => title,
+          :message => message,
+          :request_host => request_host,
+          :request_url => request_url,
+          :request_ip => request_ip,
+          :action => action,
+          :controller => controller,
+          :session_id => session_id,
+          :additional_data => additional_data,
+        }}.to_json
+    end
+    
+    def header
+      @params[:header] || {}
+    end
+
+    def body
+      @params[:body].to_s
+    end
+    
+    def post(params)
+      @params = params
+      @response = Net::HTTP.start('0.0.0.0', 3000) do |connection|
+        connection.read_timeout = 1
+        connection.open_timeout = 1
+        connection.post('/events', body, header)
+      end
+    end
+    
+    def analyse_response
+      @response.code == 201
     end
   end
 end

@@ -1,12 +1,12 @@
 source :gemcutter
 
-gem 'rails', '>= 3.0.5'
+gem 'rails'
 gem "couchmodel", :require => "couch_model"
 gem 'jquery-rails'
 gem 'coderay'
 gem 'haml'
+gem 'sass'
 gem 'will_paginate'
-gem 'highline'
 
 if RUBY_PLATFORM =~ /java/
   gem "json-jruby"
@@ -14,7 +14,7 @@ if RUBY_PLATFORM =~ /java/
 end
 
 group :development, :test do
-  gem "rspec-rails", ">= 2.3.0"
+  gem "rspec-rails"
   gem 'ruby-debug19' unless RUBY_PLATFORM =~ /java/
   gem "autotest"
 end

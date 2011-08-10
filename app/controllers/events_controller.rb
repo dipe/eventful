@@ -1,5 +1,7 @@
 class EventsController < ApplicationController
 
+  respond_to :html, :xml, :json
+
   before_filter :provide_account, :except => 'create'
   before_filter :authenticate_account_by_api_token, :only => 'create'
   
@@ -22,12 +24,8 @@ class EventsController < ApplicationController
     @event = Event.new(params[:event])
     @event.account = @account
 
-    if @event.save
-      render :xml => @event, :status => :created, :location => account_event_path(@account, @event)
-    else
-      logger.info "Create event failed: #{@event.errors.full_messages.join(' - ')}"
-      render :xml => @event.errors, :status => :unprocessable_entity
-    end
+    @event.save
+    respond_with(@event, :location => account_event_url(@account, @event))
   end
 
   def hide_additional_data_item

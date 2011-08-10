@@ -1,5 +1,5 @@
 $:.unshift File.expand_path('../../../contrib', __FILE__)
-require 'eventful_event'
+require 'eventful_event/base'
 
 ApiTestToken = 'test1234'
 
@@ -8,29 +8,28 @@ class TestClientController < ApplicationController
   def throw
     Account.find(ApiTestToken) rescue Account.create(:id => ApiTestToken, :application => 'Eventful-Test')
 
-      request.params[:controller] = random_element_of(TestExample::Controllers)
-      request.params[:action] = random_element_of(TestExample::Actions)
-      request.session_options[:id] = random_element_of(TestExample::Sessions)
-      exception = random_element_of(TestExample::Exceptions)
-      level = random_element_of(TestExample::Levels)
-      data = random_element_of(TestExample::XmlDatas)
-      extra_data = {:key => 'SOAP', :value => data, :type => :xml} if data.present?
-      
+    request.params[:controller] = random_element_of(TestExample::Controllers)
+    request.params[:action] = random_element_of(TestExample::Actions)
+    request.session_options[:id] = random_element_of(TestExample::Sessions)
+    exception = random_element_of(TestExample::Exceptions)
+    level = random_element_of(TestExample::Levels)
+    data = random_element_of(TestExample::XmlDatas)
+    extra_data = {:key => 'SOAP', :value => data, :type => :xml} if data.present?
+
     params[:times].to_i.times do
       begin
         raise exception
       rescue Exception => e
-        # Fixme: :api_token => ApiTestToken als Klassenmethode
-        Eventful::Event.fire(:api_token => ApiTestToken,
-                             :level => level,
-                             :exception => e,
-                             :request => request,
-                             :extra => extra_data,
-                             :created_at => Time.now - rand(1000000)
-                             )
+        EventfulEvent::Base.fire(:api_token => ApiTestToken,
+                                 :level => level,
+                                 :exception => e,
+                                 :request => request,
+                                 :extra => extra_data,
+                                 :created_at => Time.now - rand(1000000)
+                                 )
       end
     end
-    
+
     redirect_to test_path
   end
 
