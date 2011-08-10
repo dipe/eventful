@@ -5,17 +5,63 @@ require 'uri'
 require 'net/http'
 require 'singleton'
 
-# FIXME: api_token= als Klassenmethode
-# FIXME: eventful_uri= als Klassenmethode
-
 module EventfulEvent
   class Base
 
     include Singleton
 
-    # FIXME: host URI
+    # EventfulEvent::Base.fire is a shortcut method to fire a new exception
+    # event. It's accept a hash with the following parameters:
+    #
+    # * exception - the exeption object to track
+    # * request - the rails request object involved
+    # * extra - a optional list of additionally data you want to track with
+    #
+    # Example:
+    #
+    #   # Setup EventfulEvent with your api_token in the configuration part
+    #   # of your code:
+    #
+    #   EventfulEvent::Base.api_token = 'your api token'
+    #   EventfulEvent::Base.endpoint = 'http://your.eventful.srv:1234/'
+    #
+    #   # later in the work part your code:
+    #   
+    #   begin
+    #     # doing delicate and eventful things…
+    #     …
+    #   rescue Exception => e
+    #     EventfulEvent::Base.fire(
+    #       :request => request,
+    #       :exception => e,
+    #       :extra => {:key => 'SOAP', :value => some_xml_data, :type => :xml}
+    #     )
+    #  end
+    #
+    def self.fire(params)
+      instance.node = `hostname -s`.chomp
+      instance.pid = $$
+      instance.additional_data = []
+      params.each_pair { |name, value| instance.send("#{name}=", value) }
+
+      instance.fire
+    end
+
+    def self.api_token=(api_token)
+      instance.api_token = api_token
+    end
+
+    def self.endpoint=(endpoint)
+      instance.endpoint = URI.parse(endpoint)
+    end
+
+    def self.timeout=(timeout)
+      instance.timeout = timeout
+    end
     
     attr_accessor(:api_token,
+                  :endpoint,
+                  :timeout,
                   :level,
                   :node,
                   :pid,
@@ -30,43 +76,6 @@ module EventfulEvent
                   :additional_data,
                   :created_at
                   )
-
-    # Eventful::Event.fire is a shortcut method to fire a new exception
-    # event. It's accept a hash with the following parameters:
-    #
-    # * api_token - the api access token for your application account
-    # * exception - the exeption object to track
-    # * request - the rails request object involved
-    # * extra - a optional list of additionally data you want to track with
-    #
-    # Example:
-    #   # Setup Eventful with your api_token in the initalization
-    #   # part of your code:
-    #   Eventful::Event.api_token = your_api_token
-    #
-    #   # later in the work part your code:
-    #   
-    #   begin
-    #     # doing delicate and eventful things…
-    #     …
-    #   rescue Exception => e
-    #     Eventful::Event.fire(
-    #       :request => request,
-    #       :exception => e,
-    #       :extra => {:key => 'SOAP', :value => some_xml_data, :type => :xml}
-    #     )
-    #  end
-    #
-    def self.fire(params)
-        instance.node = `hostname -s`.chomp
-        instance.pid = $$
-        instance.additional_data = []
-        params.each_pair do |name, value|
-          instance.send("#{name}=", value)
-        end
-
-        instance.fire
-    end
 
     def fire
       begin
@@ -104,6 +113,8 @@ module EventfulEvent
       add_additional_data(extra_data[:key], extra_data[:value], extra_data[:type])
     end
 
+  private
+
     def add_additional_data(key, value, type = 'yaml')
       additional_data << {:key => key.to_s, :value => value.to_s, :type => type.to_s}
     end
@@ -111,8 +122,6 @@ module EventfulEvent
     def extract_env_from_request(request)
       request.env.slice(*request.env.keys.grep(/[A-Z]/))
     end
-
-  private
 
     def as_json
       { :event => {
@@ -143,9 +152,9 @@ module EventfulEvent
     
     def post(params)
       @params = params
-      @response = Net::HTTP.start('0.0.0.0', 3000) do |connection|
-        connection.read_timeout = 1
-        connection.open_timeout = 1
+      @response = Net::HTTP.start(endpoint.host, endpoint.port) do |connection|
+        connection.read_timeout = timeout || 3
+        connection.open_timeout = timeout || 3
         connection.post('/events', body, header)
       end
     end
