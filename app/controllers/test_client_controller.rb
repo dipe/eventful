@@ -16,19 +16,19 @@ class TestClientController < ApplicationController
     data = random_element_of(TestExample::XmlDatas)
     extra_data = {:key => 'SOAP', :value => data, :type => :xml} if data.present?
 
-    EventfulEvent::Base.api_token = ApiTestToken
-    EventfulEvent::Base.endpoint = 'http://0.0.0.0:3000/'
+    EventfulEvent.api_token = ApiTestToken
+    EventfulEvent.endpoint = 'http://0.0.0.0:3000/'
 
     params[:times].to_i.times do
       begin
         raise exception
       rescue Exception => e
-        EventfulEvent::Base.fire(:level => level,
-                                 :exception => e,
-                                 :request => request,
-                                 :extra => extra_data,
-                                 :created_at => Time.now - rand(1000000)
-                                 )
+        EventfulEvent.fire(:level => level,
+                           :exception => e,
+                           :request => request,
+                           :extra => extra_data,
+                           :created_at => Time.now - rand(1000000)
+                           )
       end
     end
 

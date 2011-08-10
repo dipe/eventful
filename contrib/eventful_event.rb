@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# EventfulEvent::Base
+# EventfulEvent
 
 require 'uri'
 require 'net/http'
@@ -10,20 +10,21 @@ module EventfulEvent
 
     include Singleton
 
-    # EventfulEvent::Base.fire is a shortcut method to fire a new exception
+    # EventfulEvent.fire is a shortcut method to fire a new exception
     # event. It's accept a hash with the following parameters:
     #
     # * exception - the exeption object to track
     # * request - the rails request object involved
     # * extra - a optional list of additionally data you want to track with
+    # * level - a small integer describing the error level
     #
     # Example:
     #
     #   # Setup EventfulEvent with your api_token in the configuration part
     #   # of your code:
     #
-    #   EventfulEvent::Base.api_token = 'your api token'
-    #   EventfulEvent::Base.endpoint = 'http://your.eventful.srv:1234/'
+    #   EventfulEvent.api_token = 'your api token'
+    #   EventfulEvent.endpoint = 'http://your.eventful.srv:1234/'
     #
     #   # later in the work part your code:
     #   
@@ -31,7 +32,7 @@ module EventfulEvent
     #     # doing delicate and eventful things…
     #     …
     #   rescue Exception => e
-    #     EventfulEvent::Base.fire(
+    #     EventfulEvent.fire(
     #       :request => request,
     #       :exception => e,
     #       :extra => {:key => 'SOAP', :value => some_xml_data, :type => :xml}
