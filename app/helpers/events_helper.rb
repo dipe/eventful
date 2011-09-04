@@ -42,4 +42,10 @@ module EventsHelper
     }
     link_to(title, account_events_path({:query => query}))
   end
+
+  def render_query(query)
+    content_tag(:ul) do
+      query.reject { |k, v| k.to_s == 'account_id' }.map { |k, v| content_tag(:li, "#{k} = #{v}") }.join.html_safe
+    end
+  end
 end

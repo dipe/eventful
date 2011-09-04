@@ -1,7 +1,7 @@
 .content
   .event_list
     %h1= link_to(@account.application, account_events_path(@account))
-    %h2= @query
+    %h2= render_query(@query)
 
     %p= will_paginate @events
 
