@@ -1,5 +1,5 @@
 $:.unshift File.expand_path('../../../contrib', __FILE__)
-require 'eventful_event/base'
+require 'eventful_event'
 
 ApiTestToken = 'test1234'
 
@@ -15,7 +15,7 @@ class TestClientController < ApplicationController
     level = random_element_of(TestExample::Levels)
     data = random_element_of(TestExample::XmlDatas)
     extra_data = {:key => 'SOAP', :value => data, :type => :xml} if data.present?
-
+    
     EventfulEvent.api_token = ApiTestToken
     EventfulEvent.endpoint = 'http://0.0.0.0:3000/'
 

@@ -33,3 +33,11 @@ Eventful::Application.configure do
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 end
+
+CouchModel::Configuration.design_directory = File.join(Rails.root, "app", "models", "designs")
+CouchModelDatabase = {
+  :url => "http://localhost:5984/eventful-development",
+  :create_if_missing => true,
+  :delete_if_exists => true,
+  :push_design => true
+}

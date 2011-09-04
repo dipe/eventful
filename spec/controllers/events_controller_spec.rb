@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe EventsController do
+
+  def valid_attributes
+    {:api_token => 'value-for-api-token', :event => {'account_id' => 'value for account_id'}}
+  end
   
   def mock_event(stubs={})
     mock_model(Event).as_null_object.tap do |event|
@@ -81,34 +85,41 @@ describe EventsController do
       end
     end
   end
-  
+
   describe "POST create" do
     before(:each) do
-      @event = mock_event(:save => true)
-      Account.should_receive(:find_by_api_token).with('value-for-api-token').and_return('value for account')
+      Account.should_receive(:find_by_api_token).with('value-for-api-token').and_return(Account.create(:application => "value for application"))
     end
     
     describe "with valid params" do
-      it "assigns a newly created event as @event" do
-        Event.stub(:new).with({'these' => 'params'}) { @event }
-        post :create, :api_token => 'value-for-api-token', :event => {'these' => 'params'}
-        assigns(:event).should be(@event)
+      it "creates a new Event" do
+        expect {
+          post :create, valid_attributes
+        }.to change(Event, :count).by(1)
       end
 
-      it "should response with the id of the newly created event"
+      it "assigns a newly created event as @event" do
+        post :create, valid_attributes
+        assigns(:event).should be_a(Event)
+      end
+
+      it "redirects to the created event" do
+        post :create, valid_attributes
+        response.should redirect_to([assigns(:event).account, assigns(:event)])
+      end
     end
 
     describe "with invalid params" do
       it "assigns a newly created but unsaved event as @event" do
-        Event.stub(:new).with({'these' => 'params'}) { @event }
-        post :create, :api_token => 'value-for-api-token', :event => {'these' => 'params'}
-        assigns(:event).should be(@event)
+        Event.any_instance.stub(:save).and_return(false)
+        post :create, :api_token => 'value-for-api-token', :event => {'unvalid' => 'params'}
+        assigns(:event).should be_a_new(Event)
       end
 
       it "should not respond with success" do
-        Event.stub(:new) { mock_event(:save => false) }
+        Event.any_instance.stub(:save).and_return(false)
         post :create, :api_token => 'value-for-api-token', :event => {}
-        response.should_not be_success
+        response.status.should eq 422
       end
     end
   end

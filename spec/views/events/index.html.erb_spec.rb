@@ -23,6 +23,6 @@ describe "events/index.html.erb" do
 
   it "renders a list of events" do
     render
-    assert_select "span", :text => "value for action".to_s, :count => 2
+    assert_select "tr", :count => 3
   end
 end

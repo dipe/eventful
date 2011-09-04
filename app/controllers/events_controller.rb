@@ -24,8 +24,11 @@ class EventsController < ApplicationController
     @event = Event.new(params[:event])
     @event.account = @account
 
-    @event.save
-    respond_with(@event, :location => account_event_url(@account, @event))
+    if @event.save
+      respond_with(@event, :location => [@account, @event])
+    else
+      render :text => @event.errors, :status => :unprocessable_entity
+    end
   end
 
   def hide_additional_data_item
@@ -42,8 +45,7 @@ class EventsController < ApplicationController
   private
   
   def authenticate_account_by_api_token
-    # FIXME: api_token separat?
-    @account = Account.find_by_api_token(params[:event][:api_token])
+    @account = Account.find_by_api_token(params[:api_token])
   end
   
   def provide_account

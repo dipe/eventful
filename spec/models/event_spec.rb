@@ -2,11 +2,11 @@ require 'spec_helper'
 
 describe Event do
   it "should initialize created_at to actual time" do
-    Event.create(:account_id => 'value for account_id').created_at.should be_within(1).of(DateTime.now)
+    Event.create(:account_id => 'value for account_id').created_at.should be_within(2).of(DateTime.now)
   end
 
   it "should set the default level to 1" do
-    Event.new.level.should == 1
+    Event.create(:account_id => 'value for account_id').level.should == 1
   end
 
   describe "with search query" do

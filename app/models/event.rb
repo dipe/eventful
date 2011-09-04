@@ -61,7 +61,8 @@ class Event < CouchModel::Base
     res
   end
   
-  def self.count(query, options = {})
+  def self.count(query = nil, options = {})
+    return super() unless query
     res = find_by_view(query, options.merge(:returns => :rows, :group_level => 0))
     return 0 if res.length == 0
     res.first.value
